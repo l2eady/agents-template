@@ -32,9 +32,10 @@ This template enforces a strict **"Plan First"** and **"Persona-Driven"** workfl
 │   ├── repo_map.json       # 🗺️ Multi-repo configuration
 │   └── current_focus.md    # 🫀 The Pulse (Active Status)
 └── artifacts/              # 🗃️ The Output
-    ├── plans/              # Approved Blueprints
-    ├── rfc/                # Architecture Proposals
-    └── logs/               # Execution Evidence
+    ├── plans/              # ✅ Approved Implementation Blueprints (The "How")
+    ├── research/           # 🕵️ Exploration, POCs, Trade-off Analysis (The "Learning")
+    ├── rfc/                # 📝 Technical Proposals, API Specs, Schema Designs (The "Proposal")
+    └── logs/               # 🧾 Execution Evidence & Test Results
 ```
 
 ---

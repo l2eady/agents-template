@@ -15,9 +15,10 @@ Use this workflow when you need to research and design a complex system before w
 3.  **Output**: Create `artifacts/research/{ID}_{Topic}.md`.
 
 ## 2. Architecture Decision (RFC)
-1.  **Draft RFC**: If the research leads to a concrete design, create `artifacts/research/{ID}-{Title}.md`.
-    - Use `rfc/TEMPLATE.md`.
-    - Define Schema, API Contract, and Dependency Changes here.
+1.  **Draft RFC**:
+    - **Crucial:** Read `.antigravity/templates/rfc.md` first.
+    - Copy the **Exact Structure** (including Sequence Diagrams and Tables) to `artifacts/rfc/{ID}_{Title}.md`.
+    - Fill in the sections. Do not skip the "Technical Design" or "Sequence Diagram" sections.
 2.  **User Review**: Ask user to approve the RFC.
 
 ## 3. Handover to Implementation

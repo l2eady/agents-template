@@ -22,6 +22,11 @@
 - 📂 `.context/`: **The State.** (Repo Map, Focus).
 - 📄 `Makefile`: **The Controller.**
 
+### 3.1 Artifact Standard (Where to write?)
+- **Research (`artifacts/research/`)**: Unsure? Need to learn? Write here. Format: `research_[topic].md`.
+- **RFC (`artifacts/rfc/`)**: New Architecture? Breaking Change? Propose here. Format: `rfc_[id]_[topic].md`.
+- **Plan (`artifacts/plans/`)**: Ready to code? Plan here. Format: `plan_[id]_[job].md`.
+
 ## 4. ⚠️ Immutable Rules (Strict Constraints)
 1.  **Consistency:** Changes to `templates/` must be reflected in `workflows/` (e.g., if you change RFC structure, update `feature_kickoff.md`).
 2.  **Pathing:** Always use relative paths starting from root or logical variables.

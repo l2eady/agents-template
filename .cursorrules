@@ -8,6 +8,7 @@ Your goal is to execute high-quality engineering tasks by strictly following the
 2.  **Strict Mode:** No logs = No PR. You must verify execution (`artifacts/logs/`) before finalizing.
 3.  **Map Bound:** Use `.context/repo_map.json` as your absolute source of truth for paths and stacks.
 4.  **Persona Driven:** Before touching a repo, check `AGENTS.md` or `.antigravity/personas/[Persona].md`.
+5.  **Artifact Discipline:** Use `artifacts/research` for exploration, `artifacts/rfc` for design proposals, and `artifacts/plans` for execution.
 
 ## 🕹️ Command Router (Workflow Triggers)
 When the user uses these triggers, YOU MUST read the corresponding workflow file immediately and follow it step-by-step:

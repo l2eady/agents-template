@@ -19,8 +19,9 @@ description: Generates a PR description and validates readiness for review.
 ## 2. 📄 Template Generation
 1.  **Load Template**: Read `.antigravity/templates/pull_request.md`.
 2.  **Auto-Fill**:
+    - **MANDATORY**: You must fill **EVERY** section in the template.
     - **Summary**: Synthesize from `current_focus.md` and `git log`.
-    - **Dependencies**: List Cross-Repo PRs if noted in `repo_map.json` or Plans.
+    - **Dependencies**: List Cross-Repo PRs.
     - **JIRA**: Extract from Branch Name.
 
 ## 3. 🛡️ Strict Compliance Check

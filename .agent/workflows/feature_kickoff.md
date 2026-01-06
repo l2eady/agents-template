@@ -16,7 +16,7 @@ description: Starts a new feature implementation process across the workspace.
 
 ## 2. 🌲 Universal Branching
 1.  **Generate Branch Name**:
-    - Format: `feat/[ID]-[short-slug]` (e.g. `feat/TWPHAG-1931-email-cron`).
+    - Format: `feat/[ID]-[short-slug]` (e.g. `feat/JIRA-1931-email-cron`).
     - *Slug Generation:* Extract keywords from JIRA title or User prompt.
 2.  **Sync Creation**:
     - Identify impacted repos (Architect decision).
@@ -24,7 +24,11 @@ description: Starts a new feature implementation process across the workspace.
 
 ## 3. 📝 Plan Initialization
 1.  **Create Plan**:
-    - Generate `artifacts/plans/plan_[ID].md` using the Standard Template.
+    - **Read Template**: `.antigravity/templates/plan.md`.
+    - **Generate**: `artifacts/plans/plan_[ID].md`.
+    - **MANDATORY**: Fill **EVERY** section defined in the template. Do not skip "User Review" or "Verification".
+    - *Tip:* If an RFC exists, link it.
+    - *Tip:* If an RFC exists (`artifacts/rfc/[ID]...`), link it in the plan.
     - Set Status to **PLANNING**.
 2.  **Update Context**:
     - Update `current_focus.md` with:
