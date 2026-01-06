@@ -22,12 +22,14 @@ description: Implementation loop with Persona routing.
     - *If Yes:* "Has the Proto PR been merged?" -> If No, **BLOCK**.
 
 ## 3. 🐝 Phase 3: The Execution (Swarm)
-**Route Persona:** `repo_map.json` -> `persona` (`gopher` / `pixel` / `kotlin_backend` / `scripter`).
 
-1.  **Adopt & Configure**:
-    - Load Persona file.
-    - Load Style Guide (`.antigravity/styles/[repo].md`).
-    - **Constraint:** Adhere to "Negative Constraints" strictly.
+1.  **Persona Selection (Dynamic Switching)**:
+    -   **Identify Target File**: specific file being modified.
+    -   **Consult Routing**: Read `routing_rules` in `.context/repo_map.json`.
+        -   *Match:* If file matches glob (e.g. `**/*.tsx`) -> Load mapped persona (e.g. `pixel`).
+        -   *No Match:* Load the `default` persona.
+    -   **Load Context**: Load Persona file & `.antigravity/styles/[repo].md`.
+    -   **Constraint:** Adhere to "Negative Constraints" strictly.
 
 2.  **The Inner Loop (Targeted TDD)**:
     - **Scope**: Identify *only* the specific file/function being modified.
