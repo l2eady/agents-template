@@ -31,7 +31,7 @@ description: Starts a new feature implementation process across the workspace.
     - *Tip:* If an RFC exists (`artifacts/rfc/[ID]...`), link it in the plan.
     - Set Status to **PLANNING**.
 2.  **Update Context**:
-    - Update `current_focus.md` with:
+    - Update `current_focus.md` at **Workspace Root** (`.context/current_focus.md`) with:
         - **Active Objective:** [ID] [Title]
         - **Active Branch:** [Branch_Name]
         - **Primary Plan:** `artifacts/plans/plan_[ID].md`

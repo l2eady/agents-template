@@ -9,7 +9,7 @@ description: Implementation loop with Persona routing.
 
 ## 1. 🏗️ Phase 1: The Blueprint (Architect)
 1.  **Context Check**:
-    - Read `current_focus.md` and `artifacts/plans/plan_[ID].md`.
+    - Read `current_focus.md` at **Workspace Root** (`.context/current_focus.md`).
     - **Constraint:** If no active Plan/RFC -> **STOP**. "Plan First Approach required. Run `@[/feature_kickoff]`."
 
 ## 2. 🌉 Phase 2: The Handover (Bridge)
@@ -23,9 +23,9 @@ description: Implementation loop with Persona routing.
 
 ## 3. 🐝 Phase 3: The Execution (Swarm)
 
-1.  **Persona Selection (Dynamic Switching)**:
+2.  **Persona Selection (Dynamic Switching)**:
     -   **Identify Target File**: specific file being modified.
-    -   **Consult Routing**: Read `routing_rules` in `.context/repo_map.json`.
+    -   **Consult Routing**: Read `routing_rules` in `.context/repo_map.json` (Workspace Root).
         -   *Match:* If file matches glob (e.g. `**/*.tsx`) -> Load mapped persona (e.g. `pixel`).
         -   *No Match:* Load the `default` persona.
     -   **Load Context**: Load Persona file & `.antigravity/styles/[repo].md`.
@@ -42,6 +42,6 @@ description: Implementation loop with Persona routing.
 
 ## 4. 🛡️ Phase 4: The Report
 1.  **Status Update**:
-    - Update `current_focus.md` (Progress checklist).
+    - Update `current_focus.md` at **Workspace Root** (`.context/current_focus.md`) with progress.
 2.  **Ready for QA**:
     - "Implementation complete. Run `@[/quality_check]` to verify."
