@@ -1,37 +1,39 @@
 {
-    "version": "1.0",
+    "version": "1.1",
     "workspace_root": ".",
+    "config": {
+        "base_jira_url": "https://[domain].atlassian.net",
+        "base_github_url": "https://github.com/[org]"
+    },
     "repositories": {
-        "auth_service": {
-            "path": "Repo_1",
+        "example_service": {
+            "path": "Repo_Path",
             "type": "service",
             "stack": "go",
+            "persona": "gopher",
+            "key_files": [
+                "cmd/main.go",
+                "Dockerfile"
+            ],
+            "owner": {
+                "team": "Platform",
+                "slack": "#platform-dev"
+            },
+            "urls": {
+                "staging": "https://api.staging.example.com",
+                "production": "https://api.example.com"
+            },
             "default_base_branch": "staging",
-            "dependencies": [
-                "postgres",
-                "redis"
-            ]
-        },
-        "payment_service": {
-            "path": "Repo_2",
-            "type": "service",
-            "stack": "go",
-            "default_base_branch": "staging",
-            "dependencies": [
-                "auth_service"
-            ]
-        },
-        "infra": {
-            "path": "Infra_Repo",
-            "type": "infrastructure",
-            "stack": "terraform",
-            "default_base_branch": "main"
+            "style_guide": ".antigravity/styles/example_service.md",
+            "commands": {
+                "test": "make test",
+                "build": "make build",
+                "generate": "make gen"
+            },
+            "dependencies": []
         }
     },
     "dependency_graph": {
-        "auth_service": [],
-        "payment_service": [
-            "auth_service"
-        ]
+        "example_service": []
     }
 }

@@ -2,28 +2,35 @@
 description: Generates a PR description and validates readiness for review.
 ---
 
-# PR Checklist & Generator
+# 📝 Workflow: PR Checklist
 
-Use this workflow when you are ready to submit your code for review.
+**Trigger:** `@[/pr_checklist]`
+**Persona:** 🛡️ Senior QA + 📝 Documentarian
 
-## 1. Readiness Verification
-1.  **Quality Gate**:
-    - Have you run `quality_check`?
-    - Check for `docs/reports/{ID}-result.md`. If missing, warns the user.
-2.  **Documentation Check**:
-    - Scan for changes in `AGENTS.md` or `README.md`.
-    - If logic changed but docs didn't, **STOP** and prompt user.
+## 1. 🕵️ Readiness & Security Scan (The Paranoia)
+1.  **Secret Scan**:
+    - Check staged files (`git diff --cached --name-only`).
+    - **Regex Match:** `.env`, `.pem`, `key`, `secret`, `token`, `password`.
+    - **Rule:** If match found -> **STOP**. "Security Risk: Sensitive file detected."
 
-## 2. Content Generation
-1.  **Load Template**: Read `docs/templates/pull_request.md`.
-2.  **Fill Details**:
-    - **JIRA_ID**: From context or user input.
-    - **Summary**: Summarize changes from `artifacts/plans/plan_[ID].md`.
-    - **Repos**: List modified repositories.
-    - **Evidence**: Summary from `docs/reports/{ID}-result.md`.
-3.  **Generate Artifact**:
-    - Save the filled content to `docs/reports/{ID}_PR_Description.md`.
+2.  **Dirty Check**:
+    - Are there unstaged changes? "Warning: PR might be incomplete."
 
-## 3. Final Step
-- Output the path to the generated PR Description.
-- User can now `git push` and copy-paste this description.
+## 2. 📄 Template Generation
+1.  **Load Template**: Read `.antigravity/templates/pull_request.md`.
+2.  **Auto-Fill**:
+    - **Summary**: Synthesize from `current_focus.md` and `git log`.
+    - **Dependencies**: List Cross-Repo PRs if noted in `repo_map.json` or Plans.
+    - **JIRA**: Extract from Branch Name.
+
+## 3. 🛡️ Strict Compliance Check
+1.  **Log Validation**:
+    - "Does `artifacts/logs/` contain a passing test run?"
+    - **Rule:** If No -> Flag as "Missing Verification Evidence".
+
+## 4. 📝 Documentation Review
+1.  **Agent Logic**:
+    - "Did `AGENTS.md` change?"
+2.  **Output**:
+    - Generate PR description to `docs/reports/pr_[ID].md`.
+    - "PR Draft saved. Copy content to GitHub/GitLab."

@@ -27,6 +27,24 @@ You are running inside Google Antigravity. **DO NOT** just write code. For every
 
 ---
 
+## 🐝 The Swarm Strategy (Multi-Agent Protocol)
+
+To ensure smooth collaboration in a Multi-Repo environment, you must adhere to these interaction protocols:
+
+### 1. 🤝 Handover Protocol
+- **Flow:** `Architect` -> `The Bridge` -> `Implementer` (Gopher / Pixel / Scripter / Kotliner).
+- **Rule:** When the **Architect** finishes a design, **The Bridge** MUST review it for cross-repo impact (API breaks, Shared Libs) BEFORE the **Implementer** writes a single line of code.
+
+### 2. 🔒 Context Lock
+- **Guardian:** `The Librarian`.
+- **Rule:** Before starting a new Task, verify `current_focus.md`. If the previous task is "In Progress" or "Stalled", you CANNOT overwrite it without resolving the conflict (or explicitly noting the context switch).
+
+### 3. 🛡️ Strict Mode (QA Veto)
+- **Authority:** `Senior QA` has absolute veto power.
+- **Rule:** If any **Implementer** (Gopher / Pixel / Scripter / Kotliner) submits code without a corresponding execution log in `artifacts/logs/`, the QA MUST reject it immediately. "It works on my machine" is not a valid excuse.
+
+---
+
 ## 💻 Coding Standards
 
 ### General
@@ -36,8 +54,6 @@ You are running inside Google Antigravity. **DO NOT** just write code. For every
 ### Python Specific
 - **Type Hints:** ALL Python code MUST use strict Type Hints (`typing` module or standard collections).
 - **Pydantic:** Use `pydantic` models for all data structures and schemas.
-
-### Tooling
 - **Tool Use:** ALL external API calls (web search, database, APIs) MUST be wrapped in dedicated functions inside a `tools/` directory (if applicable).
 
 ---

@@ -2,34 +2,36 @@
 description: Starts a new feature implementation process across the workspace.
 ---
 
-# Feature Kickoff Workflow
+# 🚀 Workflow: Feature Kickoff
 
-This workflow initializes the workspace for a new task.
+**Trigger:** `@[/feature_kickoff] [JIRA-ID]`
+**Persona:** 🏗️ The Architect
+**Goal:** Cleanly initialize a new feature across the swarm (Safe Branching + Plan).
 
-## 1. Plan Initialization
-1.  **Understand the Goal**: Identify the JIRA ID or Feature Name from the user request.
-2.  **Context Link**:
-    - Search for `rfc/*{ID}*.md`.
-    - Search for `artifacts/research/*{ID}*.md`.
-    - *If found*: Reference these documents in the new plan as "Primary Context".
-3.  **Create Artifact**: Create `artifacts/plans/plan_[ID].md` using the standard template, importing decisions from the RFC.
-4.  **Update Focus**: Add the new task to `.context/current_focus.md`.
+## 1. 🛡️ Safety First (Pre-Flight Check)
+1.  **Dirty Check**:
+    - Run `git status --porcelain` in ALL target repos.
+    - **Rule:** If ANY repo has uncommitted changes -> **STOP**.
+    - **Action:** Ask user to `stash` or `commit` first. No "force checkout" allowed.
 
-## 2. Repository Setup
-For each repository involved in this feature (refer to `.context/repo_map.json`):
+## 2. 🌲 Universal Branching
+1.  **Generate Branch Name**:
+    - Format: `feat/[ID]-[short-slug]` (e.g. `feat/TWPHAG-1931-email-cron`).
+    - *Slug Generation:* Extract keywords from JIRA title or User prompt.
+2.  **Sync Creation**:
+    - Identify impacted repos (Architect decision).
+    - `git checkout -b [Branch_Name]` on those repos only.
 
-1.  **Identify Base Branch**: Read `default_base_branch` from `repo_map.json` (e.g., `staging` or `main`).
-2.  **Fetch Latest**:
-    ```bash
-    cd [Repo_Path] && git fetch origin [Base_Branch]
-    ```
-3.  **Checkout New Branch**:
-    ```bash
-    cd [Repo_Path] && git checkout -b feat/[ID] origin/[Base_Branch]
-    ```
+## 3. 📝 Plan Initialization
+1.  **Create Plan**:
+    - Generate `artifacts/plans/plan_[ID].md` using the Standard Template.
+    - Set Status to **PLANNING**.
+2.  **Update Context**:
+    - Update `current_focus.md` with:
+        - **Active Objective:** [ID] [Title]
+        - **Active Branch:** [Branch_Name]
+        - **Primary Plan:** `artifacts/plans/plan_[ID].md`
 
-## 3. Documentation Check
-1.  Check if `docs/feat/[ID].md` exists. If not, create a placeholder.
-
-## 4. Notify User
-- Confirm that the plan is created and branches are ready.
+## 4. 🤝 Handover
+1.  **Switch Mode**: Enter **PLANNING** mode.
+2.  **Prompt**: "Feature [ID] initialized on branch [Branch]. Plan skeleton created. Ready to draft implementation details?"

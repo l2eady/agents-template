@@ -4,13 +4,13 @@
 
 <!-- Link to the JIRA ticket or Confluence page -->
 
-- JIRA: [TWPHAG-XXX](https://opn-ooo.atlassian.net/browse/TWPHAG-XXX)
+- JIRA: [{JIRA_ID}]({BASE_JIRA_URL}/browse/{JIRA_ID})
 
 ## PR Title
-- `feat(TWPHAG-xxx): xxx`
-- `bugfix(TWPHAG-xxx): xxx`
-- `refactor(TWPHAG-xxx): xxx`
-- `chore(TWPHAG-xxx): xxx`
+- `feat({JIRA_ID}): xxx`
+- `bugfix({JIRA_ID}): xxx`
+- `refactor({JIRA_ID}): xxx`
+- `chore({JIRA_ID}): xxx`
 
 ## Summary
 
@@ -28,6 +28,14 @@
 
 <!-- Describe the changes in detail (Files touched, Logic changed) -->
 
+## 🔗 Dependencies
+<!-- List any PRs that must be merged before this one -->
+- [ ] Merge PR [Repo_Name]#[PR_ID] first.
+- [ ] Update Infra configuration in [Infra_Repo]#[PR_ID].
+
+## 🤖 Agentic Impact
+- [ ] Updated `AGENTS.md` to reflect new logic for this feature.
+
 ---
 
 ### Testing
@@ -35,6 +43,7 @@
 <!-- Describe what tests you have performed or plan to perform (Unit Tests / E2E / Manual) -->
 - [ ] **Unit Tests**: `make test` (Pass/Fail) -> See `artifacts/logs/...`
 - [ ] **E2E Tests**: `make e2e` (Pass/Fail)
+- [ ] **Strict Mode**: Execution Logs attached? (Required by QA)
 
 ## Post-Deployment Tasks
 
@@ -47,22 +56,22 @@
 ------
 
 ## Slack Notification
-Hi @Passagon (Bank), Kittiboonyagarn @Phongphan Phuttha, @Kong @pacharapong.t @atittarn.r @Kim,
+Hi Team,
 
 please help review: [Title]
 
 PR Link: [Link]
 
-Jira Link: [Link]
+Jira Link: [{BASE_JIRA_URL}/browse/{JIRA_ID}]
 
 ## How to Test on Staging
-- **Secret Token**: `Secret 42N9792UBBK5KBaiJCAMd3DPz2hc9KR6`
+- **Secret Token**: `[Get from Infra Repository/Vault/1Password]` (Do NOT hardcode here)
 - **User Token**: `Bearer {xxx}`
-- **Base URL**: `https://twallet-ph-service.twallet-ph-staging.opn.dev`
+- **Base URL**: `{REPO_STAGING_URL}` (See `repo_map.json`)
 - **Template**:
   ```bash
-  curl -v -X POST "https://twallet-ph-service.twallet-ph-staging.opn.dev/[ENDPOINT]" \
-    -H "Authorization: Secret 42N9792UBBK5KBaiJCAMd3DPz2hc9KR6" \
+  curl -v -X POST "{REPO_STAGING_URL}/[ENDPOINT]" \
+    -H "Authorization: [Secret]" \
     -H "Content-Type: application/json" \
     -d '{"key": "value"}'
   ```

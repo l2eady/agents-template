@@ -1,0 +1,23 @@
+# System
+.DS_Store
+Thumbs.db
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# Antigravity Artifacts
+# Keep plans and research (Knowledge), ignore raw logs (Evidence)
+artifacts/logs/
+*.log
+
+# Temp
+tmp/
+node_modules/
+dist/
+build/
+coverage/
+
+# Context (Optional: specific to team preference, usually committed)
+# .context/current_focus.md 

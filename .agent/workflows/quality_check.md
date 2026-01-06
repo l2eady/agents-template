@@ -2,28 +2,33 @@
 description: Runs quality checks (Unit Tests & E2E) across the workspace.
 ---
 
-# Quality Check Workflow
+# 🚧 Workflow: Quality Check
 
-## 1. Context Analysis
-- Identify which repositories have changes using `git status` or by checking `.context/current_focus.md`.
+**Trigger:** `@[/quality_check]`
+**Persona:** 🛡️ The Gatekeeper (QA)
+**Goal:** Verify code health efficiently (Fail Fast).
 
-## 2. Unit Testing
-For each modified repository:
-1.  **Execute Tests**:
-    ```bash
-    # Example for Go
-    cd [Repo_Path] && make test
-    ```
-// turbo
-2.  **Log Results**: Save the output to `artifacts/logs/test_[Repo]_[Timestamp].log`.
+## 1. ⚙️ Strategy Determination
+1.  **Detect Monorepo**:
+    - Check for `turbo.json` in root.
+    - *If Found:* Use **Turbo Mode**.
+    - *Else:* Use **Standard Mode**.
 
-## 3. Integration Testing (E2E)
-1.  **Run E2E Suite**:
-    ```bash
-    make e2e
-    ```
-2.  **Capture Evidence**: Record any failure logs to `artifacts/logs/`.
+## 2. 🧪 Unit Testing
+1.  **Execute**:
+    - **Turbo Mode**: `npx turbo run test --filter=[Repo]`.
+    - **Standard Mode**: Read `commands.test` from `repo_map.json` -> Run in [Repo_Path].
+2.  **Fail Fast Gate ⛔**:
+    - **Constraint:** If Unit Tests FAIL -> **STOP IMMEDIATELY**.
+    - **Action:** Report failure. Do NOT proceed to E2E. "Fix Unit Tests first."
 
-## 4. Report
-- Summarize pass/fail status in the chat.
-- If failure, consult `rules.md` for strict error handling protocols.
+## 3. 🕸️ E2E Testing
+*Only runs if Unit Tests passed.*
+1.  **Execute**:
+    - Run defined E2E scenarios.
+2.  **Logic Check**:
+    - Look for "Business Logic" errors in logs (not just HTTP 200).
+
+## 4. 📝 Report
+- **Pass:** "All Green. Ready for PR."
+- **Fail:** "Verification Failed. See `artifacts/logs/`."

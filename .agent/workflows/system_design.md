@@ -7,9 +7,12 @@ description: Initiates a Research & Design phase before coding begins.
 Use this workflow when you need to research and design a complex system before writing implementation code.
 
 ## 1. Research Phase
-1.  **Trigger**: User says "Research X" or "Design X for JIRA-123".
-2.  **Output**: Create `artifacts/research/{ID}_{Topic}.md`.
-    - Document findings, competitor analysis, or stack comparisons.
+1.  **🤯 Adopt Persona**:
+    - **Read `.antigravity/personas/architect.md`**.
+    - *Shift your mindset to high-level design and trade-offs.*
+
+2.  **Trigger**: User says "Research X" or "Design X for JIRA-123".
+3.  **Output**: Create `artifacts/research/{ID}_{Topic}.md`.
 
 ## 2. Architecture Decision (RFC)
 1.  **Draft RFC**: If the research leads to a concrete design, create `rfc/{ID}-{Title}.md`.

@@ -1,42 +1,68 @@
-# Coding Style & Architectural Standards
+# 🎨 Antigravity Coding Style Guidelines
 
-Since this workspace contains **Multiple Repositories** with different tech stacks, this file acts as a **Router** and **Global Standard**.
+**Effective Date:** 2026-01-06
+**Status:** Live
 
-## 🗺️ Repo-to-Style Map (Data Map)
+> **Context is King.** Do not blindly apply generic rules. The existing code in the target repository is the "Source of Truth" for style.
+> **Persona Mapping:**
+> - 🐹 **Gopher:** [Go Backend](#go-backend)
+> - ⚛️ **Pixel:** [Frontend Style](#-frontend-style)
+> - 🧶 **Kotliner:** [Kotlin Backend](#-kotlin-backend-style)
+> - 🐍 **Scripter:** [Python Data](#-python-data-style)
 
-| Repository Pattern | Language | Stack | Style Reference |
-| :--- | :--- | :--- | :--- |
-| `*_service` | Go | Fiber/Gin | [Go Backend Style](#go-backend-style) |
-| `frontend_*` | TypeScript | React/Next.js | [Frontend Style](#frontend-style) |
-| `data_*` | Python | Pandas/Pydantic | [Data Science Style](#python-data-style) |
-| `infra` | HCL/YAML | Terraform/K8s | [Infrastructure Style](#infrastructure-style) |
+## 👑 The "When in Rome" Protocol (Strict Order)
 
-> **Note:** If a repository contains a `CONTRIBUTING.md` or `STYLE.md` at its root, **that file takes precedence** over these global rules.
+When modifying any file, you **MUST** follow this hierarchy of authority for coding style:
+
+### 1. ⚙️ Local Configuration (Highest Priority)
+Look for these files in the repository root or current directory. **If they exist, OBEY THEM.**
+- **General:** `.editorconfig`, `.prettierrc`
+- **Go:** `.golangci.yml`, `golangci.yaml`
+- **JS/TS:** `.eslintrc.*`, `tsconfig.json`
+- **Kotlin:** `build.gradle.kts`, `settings.gradle.kts`, `detekt.yml`, `.ktlint`
+- **Python:** `pyproject.toml`, `setup.cfg`, `.pylintrc`
+
+### 2. 📜 Repository Documentation
+Check for explicit human-written guides:
+- `CONTRIBUTING.md`
+- `STYLE.md`
+- `AGENTS.md` (Repo-specific overrides)
+- `README.md`
+
+### 3. 👯 Mimic Existing Patterns
+If no config exists, open 5-15 other files in the **same directory/package**.
+- **Indentation:** Tab vs Space? 2 spaces vs 4 spaces?
+- **Naming:** `camelCase` vs `snake_case`? `IInterface` vs `Interface`?
+- **Error Handling:** `if err != nil` vs `Check(err)`?
+- **Imports:** Grouped? Sorted? Local vs Third-party split?
+
+**RULE:** writing "Better" code that looks "Different" is **BAD CODE**. Consistency > "Correctness".
 
 ---
 
-## 🟢 Global Defaults (Apply everywhere)
+## 🛡️ Global Defaults (The Safety Net)
+*Only use these if and ONLY IF steps 1-3 yielded no guidance.*
 
-1.  **Naming:** Use `snake_case` for filenames, `camelCase` for variables (except Python/Go where standard idioms apply).
-2.  **Comments:** Explain *WHY*, not *WHAT*.
-3.  **Config:** All configuration must be via Environment Variables. No hardcoded secrets.
-4.  **Error Handling:** Fail fast. Return errors explicitly. Do not swallow exceptions silently.
+### Go (Backend)
+- **Format:** `gofmt` standard.
+- **Errors:** Explicit `if err != nil { return nil, err }`. Wraps errors with `fmt.Errorf("context: %w", err)`.
+- **Naming:** Short variable names (`ctx`, `r`, `w`). PascalCase for exports.
 
----
+### React/JS (Frontend)
+- **Indent:** 2 Spaces.
+- **Semicolons:** Yes (unless repo is strictly no-semi).
+- **Naming:** `PascalCase` for Components, `camelCase` for functions/vars.
+- **Components:** Functional components with Hooks.
 
-## 🐹 Go Backend Style
-*Applicable to: Auth Service, Payment Service*
-
-- **Project Layout:** Follow [Standard Go Project Layout](https://github.com/golang-standards/project-layout).
-    - `cmd/`: Main applications
-    - `internal/`: Private application code
-    - `pkg/`: Library code ok to use by external apps
+### Infrastructure (Helm/Terraform)
+- **Indent:** 2 Spaces.
+- **Comments:** Explain "Why", not "What".
+l apps
 - **Linter:** `golangci-lint` must pass with default settings.
 - **Error Handling:** Use `errors.Wrap` for context. Don't just return `err`.
 
 ## ⚛️ Frontend Style
 *Applicable to: Web Dashboards, Mobile App*
-
 - **Component Structure:**
     ```text
     components/
@@ -48,6 +74,14 @@ Since this workspace contains **Multiple Repositories** with different tech stac
 - **State Management:** Prefer React Query (Server State) > Zustand (Global Client State) > Context API.
 - **Styling:** TailwindCSS with strict utility class ordering (use `prettier-plugin-tailwindcss`).
 
+## � Kotlin Backend Style
+*Applicable to: Backend Services, CLI Tools*
+
+- **Framework:** Ktor (Preferred for Microservices) or Spring Boot 3.x.
+- **Build System:** Gradle Kotlin DSL (`.kts`).
+- **Concurrency:** Structured Concurrency (Coroutines).
+- **Testing:** JUnit 5 or Kotest.
+
 ## 🐍 Python Data Style
 *Applicable to: Analytics, AI Agents*
 
@@ -56,13 +90,23 @@ Since this workspace contains **Multiple Repositories** with different tech stac
 - **Models:** Use Pydantic V2 for all data validation.
 
 ## 🏗️ Infrastructure Style
-*Applicable to: Terraform, Helm, Docker*
+*Applicable to: Terraform, Helm, Docker, Argo CD, Kubernetes*
 
 - **Tagging:** All resources must have `Owner` and `Environment` tags.
+- **Terraform:**
+    - Use remote state with locking (S3 + DynamoDB).
+    - Modularize resources; avoid monolithic `main.tf`.
+- **Helm/Kubernetes:**
+    - Use `values.yaml` for defaults.
+    - No hardcoded secrets (Use SealedSecrets or ExternalSecrets).
+    - Resource Limits/Requests are MANDATORY.
 - **Docker:**
-    - Use multi-stage builds.
-    - Run as non-root user.
-    - Tag images with Commit SHA.
+    - Use multi-stage builds (Distroless preferred).
+    - Run as non-root user (Security).
+    - Tag images with Commit SHA (Immutability).
+- **Argo CD:**
+    - Use "App of Apps" pattern.
+    - Sync Policy: Automated (Prune=true, SelfHeal=true).
 
 ---
 

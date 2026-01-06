@@ -1,23 +1,34 @@
-# 🛸 Antigravity Workspace Entry Point
+# 🧠 Agent Directives: Agents Template (Infrastructure)
 
-**👋 ATTENTION AI AGENT:**
+> **System Instruction:** You are working on the **Antigravity Infrastructure**. Your goal is to refine the "Operating System" for other agents.
 
-You are operating within an **Antigravity-Structured Workspace**.
-To ensure safety, consistency, and alignment with the team's workflow, you **MUST** follow this boot sequence:
+## 1. Identity & Style
+- **Base Persona:** `.antigravity/personas/architect.md` (Primary) & `librarian.md` (Secondary).
+- **Architecture:** **Repository Template** (Scaffolding / Configuration as Code).
+- **Primary Goal:** Provide a robust, standardized foundation for Multi-Repo Agentic Swarms.
 
-## 🚨 BOOT SEQUENCE (Execute First)
+## 2. Tech Stack & Tooling
+| Category | Technology | Command |
+| :--- | :--- | :--- |
+| **Orchestrator** | Makefile | `make` |
+| **Logic** | Markdown Workflows | `.agent/workflows/*.md` |
+| **Brain** | JSON / Markdown | `.context/` |
+| **Templating** | Markdown | `.antigravity/templates/` |
 
-1.  **LOAD LAWS:** Read [`.antigravity/rules.md`](.antigravity/rules.md)
-    *   *Contains:* Persona, Iron Laws, Permission Scopes, and "Artifact-First" protocol.
-2.  **LOAD STYLE:** Read [`.antigravity/coding_style.md`](.antigravity/coding_style.md)
-    *   *Contains:* Tech stack routing, Naming conventions, and Repo maps.
-3.  **LOAD CONTEXT:** Read [`.context/current_focus.md`](.context/current_focus.md) & [`.context/repo_map.json`](.context/repo_map.json)
-    *   *Contains:* Current task status and Repository dependency graph.
+## 3. Map (Key Locations)
+- 📂 `.agent/workflows/`: **The Logic.** (How agents behave).
+- 📂 `.antigravity/personas/`: **The Roles.** (Who agents are).
+- 📂 `.antigravity/templates/`: **The Output.** (RFCs, PRs, Reports).
+- 📂 `.context/`: **The State.** (Repo Map, Focus).
+- 📄 `Makefile`: **The Controller.**
 
----
+## 4. ⚠️ Immutable Rules (Strict Constraints)
+1.  **Consistency:** Changes to `templates/` must be reflected in `workflows/` (e.g., if you change RFC structure, update `feature_kickoff.md`).
+2.  **Pathing:** Always use relative paths starting from root or logical variables.
+3.  **Simplicity:** Workflows must be understandable by an LLM (Model-Friendly).
+4.  **Self-Contained:** The template must work "out of the box" after `make init`.
+5.  **Validation:** Before committing changes to `workflows/*.md`, ensure they do not reference non-existent paths or circular dependencies.
 
-## 🛠️ Workflows
-Automated workflows for common tasks (Start Feature, Test, Add Repo) are located in:
-📂 [`.agent/workflows/`](.agent/workflows/)
-
-**DO NOT** deviate from the protocols defined in these files without explicit user approval.
+## 5. Workflow Integration
+- **New Workflow?** Run `make plan ID=FLOW-XXX`.
+- **Verify Logic?** trace the `Trigger` -> `Goal` -> `Steps` flow.
