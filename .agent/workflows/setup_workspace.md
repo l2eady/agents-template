@@ -10,9 +10,11 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
 
 ## 1. 🧬 Foundation Injection
 1.  **Scaffold Structure**: 
-    - Ensure `.antigravity/`, `.agent/`, `.context/` exist.
+    - `cp -r .antigravity [Target]/`
+    - Ensure `.agent/`, `.context/` exist.
     - **Crucial:** `mkdir -p artifacts/logs artifacts/plans artifacts/research artifacts/rfc` (Create with `.gitkeep` if needed).
     - `cp Makefile AGENTS.md [Target]/` (If missing).
+    - `cp -r .agent/workflows [Target]/.agent/` (Remove `setup_workspace.md` from target after copy).
 
 2.  **Initialize Context**:
     - `cp .antigravity/templates/context.md .context/current_focus.md` (Do not overwrite if exists).
@@ -54,8 +56,7 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
 3.  **Fill Blanks**: Ask "Enter Staging URL for [Repo]" ONLY if detection failed.
 
 ## 5. ✅ Finalize
-1.  **Initialize Repo Directives**:
-    - For each repo, copy `.antigravity/templates/AGENTS.md` to `[Repo]/AGENTS.md`.
-    - Replace placeholders (`[Persona]`, `[Stack]`) with discovered data.
-2.  **Update Global AGENTS.md**: List the configured repositories at the root level.
+1.  **Enhance Global AGENTS.md**:
+    - **If exists**: Read content. Locate or Create the `## Repositories` section. Upsert the repository list table. **Preserve** existing custom instructions.
+    - **If missing**: Create from `templates/AGENTS.md` and populate.
 3.  **Boot Message**: "Workspace initialized. The Librarian is active. Run `@[/context_sync]` to start."

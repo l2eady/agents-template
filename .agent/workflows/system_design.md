@@ -15,7 +15,7 @@ Use this workflow when you need to research and design a complex system before w
 3.  **Output**: Create `artifacts/research/{ID}_{Topic}.md`.
 
 ## 2. Architecture Decision (RFC)
-1.  **Draft RFC**: If the research leads to a concrete design, create `rfc/{ID}-{Title}.md`.
+1.  **Draft RFC**: If the research leads to a concrete design, create `artifacts/research/{ID}-{Title}.md`.
     - Use `rfc/TEMPLATE.md`.
     - Define Schema, API Contract, and Dependency Changes here.
 2.  **User Review**: Ask user to approve the RFC.
