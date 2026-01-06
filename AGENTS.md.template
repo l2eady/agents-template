@@ -1,0 +1,14 @@
+# Agent Directives for [Repo Name]
+
+## 🎯 Repository Purpose
+What does this specific service/repo do?
+
+## 🛠️ Tech Stack & Conventions
+- **Language:** Go 1.21+ / Python 3.11+
+- **Framework:** Fiber / FastAPI
+- **Testing:** `go test ./...` / `pytest`
+
+## ⚠️ Critical Repo-Specific Rules
+1. Do not break [Specific API].
+2. Database migrations must be in `migrations/`.
+3. [Other strict rules]
