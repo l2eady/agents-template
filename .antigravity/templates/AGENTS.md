@@ -2,41 +2,63 @@
 
 > **System Instruction:** You are an expert contributor to this repository. Before writing any code, you MUST align with the directives below.
 
-## 1. Identity & Style
-- **Base Persona:** `.antigravity/personas/[Persona].md` (👈 **Load This First!**)
-- **Architecture:** [Hexagonal / Clean Arch / MVC / Layered]
-- **Primary Goal:** [Short description: e.g., "Handle high-throughput payment processing"]
+## 1. 🏗️ Identity & Core Context
+*   **Base Persona:** `[Persona].md` (👈 **Load This First!**)
+*   **Architecture Pattern:** [Hexagonal / Clean Arch / MVC / Layered]
+*   **Domain Focus:** [e.g., "Payments & Ledger" or "User Auth"]
+*   **State Management:** [e.g., "Postgres + Redis" or "Stateless"]
 
-## 2. Tech Stack & Tooling
-| Category | Technology | Command |
+## 2. 🛠️ Tech Stack & Standard Operating Procedures (SOP)
+| Category | Technology | Standard Command | Notes |
+| :--- | :--- | :--- | :--- |
+| **Language** | [Go/Node/Py] | `[Version Cmd]` | - |
+| **Test (Unit)** | [Framework] | `make test` | Coverage > 80% |
+| **Test (E2E)** | [Framework] | `make e2e` | Run against Staging |
+| **Lint** | [Linter] | `make lint` | Zero tolerance |
+| **Build** | [Compiler] | `make build` | Output to `bin/` |
+
+## 3. 🗺️ Cognitive Map
+### 🔑 Key Directories
+- 📂 `cmd/` or `app/`: **Entry Points**. (Main function, DI wiring).
+- 📂 `internal/core/` or `src/domain/`: **The Crown Jewels**. Pure business logic. NO Frameworks.
+- 📂 `internal/adapters/` or `src/infra/`: **The Plumbing**. SQL, HTTP, AWS.
+- 📂 `migrations/`: **Database Schema**. Immutable once applied.
+
+### 🛤️ Critical Critical Paths
+*(Examples: The "Create Order" flow, The "Login" flow)*
+1.  **[Flow Name]:** `[EntryPoint]` -> `[Service]` -> `[Repository]` -> `[Database]`
+
+## 4. 🚨 The Law (Strict Constraints)
+1.  **The "No Fluff" Rule:** Do not add comments explaining "what" code does. Explain "why".
+2.  **The Dependency Rule:** Core Domain must NEVER import Adapters/Infra.
+3.  **The Config Rule:** 12-Factor App. Secrets in Env Vars only.
+4.  **The Test Rule:** "If it's not tested, it doesn't exist." TDD is preferred.
+5.  **The Data Rule:** Schema changes require a migration file AND an RFC.
+
+## 5. 🔄 Workflow Integration (Antigravity OS)
+*Drive the SDLC using these slash commands. Do not deviate.*
+
+### Phase 1: Strategic Planning
+| Goal | Command | Description |
 | :--- | :--- | :--- |
-| **Language** | [Language] | [Cmd: go/python/node] |
-| **Framework** | [Framework] | - |
-| **Test** | [Test Lib] | `[Test Command]` |
-| **Lint** | [Linter] | `[Lint Command]` |
+| **Sync Context** | `@[/context_sync]` | **Start here.** Align your mind with the codebase state. |
+| **Design System** | `@[/system_design]` | **New Feature?** Draft an RFC. Resolve Security/Arch trade-offs. |
+| **Start Feature** | `@[/feature_kickoff]` | **Ready to code?** Generate the Plan, Branch, and Scaffolding. |
 
-## 3. Map (Key Locations)
-- 📂 `cmd/`: Entry point (Main).
-- 📂 `internal/core/` (or `src/domain`): Business Logic (**Pure Code, No Frameworks**).
-- 📂 `internal/adapters/` (or `src/infra`): Database & HTTP handlers.
-- 📂 `tests/`: End-to-End or Integration tests.
-
-## 4. ⚠️ Immutable Rules (Strict Constraints)
-1.  **Dependency Rule:** Core domain must NEVER import adapters/infra.
-2.  **Config:** Never hardcode secrets. Use env vars.
-3.  **API Contract:** Changes to API spec require an updated RFC first.
-4.  **Testing:** Every new function needs a Unit Test.
-
-## 5. Workflow Integration (Antigravity OS)
-Use these slash commands to drive the SDLC:
-
-| Phase | Command | Purpose |
+### Phase 2: Execution (The Loop)
+| Goal | Command | Description |
 | :--- | :--- | :--- |
-| **Start** | `@[/context_sync]` | Align context, git status, and logs. |
-| **Design** | `@[/system_design]` | Research & Draft RFCs (Security & Architecture). |
-| **Plan** | `@[/feature_kickoff]` | Create Branch & Implementation Plan. |
-| **Build** | `@[/implement]` | Write code with Persona routing & Targeted TDD. |
-| **Fix** | `@[/debug]` | Reproduce & Fix bugs using Scientific Method. |
-| **Verify** | `@[/quality_check]` | Run Unit & E2E Tests (Fail Fast). |
-| **Release** | `@[/pr_checklist]` | Generate PR Description & verify compliance. |
-| **Docs** | `@[/sync_docs]` | Ensure README/AGENTS.md matches code. |
+| **Write Code** | `@[/implement]` | **Build.** Iterative TDD. Persona-routed editing. |
+| **Fix Bugs** | `@[/debug]` | **Stuck?** Isolate, Reproduce, Regress, Fix. (Scientific Method). |
+
+### Phase 3: Finalization
+| Goal | Command | Description |
+| :--- | :--- | :--- |
+| **Verify** | `@[/quality_check]` | **Gatekeeper.** Run fully regression suite. |
+| **Ship** | `@[/pr_checklist]` | **Release.** Generate Change Log & PR Description. |
+| **Document** | `@[/sync_docs]` | **Housekeeping.** Update README/AGENTS.md. |
+
+## 6. 💡 Common Patterns & Snippets
+*(Optional: Add repo-specific snippets here)*
+- **Error Handling**: `if err != nil { return fmt.Errorf("op: %w", err) }`
+- **Logging**: `logger.Info("msg", zap.String("key", val))`
