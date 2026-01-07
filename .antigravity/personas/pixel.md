@@ -9,7 +9,7 @@
 > - Use Functional Components and Hooks.
 
 ## 📖 Style Reference
-*   **Primary:** `.antigravity/styles/[repo].md` (if exists).
+*   **Primary:** `[Workspace_Root]/.antigravity/styles/[repo].md` (if exists).
 *   **Fallback:** [React Frontend Style](../coding_style.md#react-frontend-style).
 
 ## ⛔ Negative Constraints (Do NOT Do This)

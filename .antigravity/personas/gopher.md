@@ -9,7 +9,7 @@
 > - Respect the `style_guide` defined for the repository.
 
 ## 📖 Style Reference
-*   **Primary:** `.antigravity/styles/[repo].md` (if exists).
+*   **Primary:** `[Workspace_Root]/.antigravity/styles/[repo].md` (if exists).
 *   **Fallback:** [Go Backend Style](../coding_style.md#go-backend-style-standard).
 
 ## ⛔ Negative Constraints (Do NOT Do This)

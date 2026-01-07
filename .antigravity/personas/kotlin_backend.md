@@ -10,7 +10,7 @@
 > - Use Gradle Kotlin DSL (`build.gradle.kts`).
 
 ## 📖 Style Reference
-*   **Primary:** `.antigravity/styles/[repo].md` (if exists).
+*   **Primary:** `[Workspace_Root]/.antigravity/styles/[repo].md` (if exists).
 *   **Fallback:** [Kotlin Backend Style](../coding_style.md#kotlin-backend-style).
 
 ## ⛔ Negative Constraints (Do NOT Do This)

@@ -25,11 +25,11 @@ description: Onboards a new repository or service into the workspace with auto-d
 
 1.  **Detect Stack & Persona (Priority Order)**:
     -   *Scan Root Files:*
-        -   `go.mod` -> **Stack:** `go` | **Persona:** `.antigravity/personas/gopher.md`
-        -   `package.json` + (`next`/`react`) -> **Stack:** `react` | **Persona:** `.antigravity/personas/pixel.md`
-        -   `package.json` + (`nest`/`express`) -> **Stack:** `node` | **Persona:** `.antigravity/personas/backend.md`
-        -   `requirements.txt` / `pyproject.toml` -> **Stack:** `python` | **Persona:** `.antigravity/personas/snake.md`
-        -   `Dockerfile` / `k8s/` -> **Stack:** `infra` | **Persona:** `.antigravity/personas/architect.md`
+        -   `go.mod` -> **Stack:** `go` | **Persona:** `[Workspace_Root]/.antigravity/personas/gopher.md`
+        -   `package.json` + (`next`/`react`) -> **Stack:** `react` | **Persona:** `[Workspace_Root]/.antigravity/personas/pixel.md`
+        -   `package.json` + (`nest`/`express`) -> **Stack:** `node` | **Persona:** `[Workspace_Root]/.antigravity/personas/backend.md`
+        -   `requirements.txt` / `pyproject.toml` -> **Stack:** `python` | **Persona:** `[Workspace_Root]/.antigravity/personas/snake.md`
+        -   `Dockerfile` / `k8s/` -> **Stack:** `infra` | **Persona:** `[Workspace_Root]/.antigravity/personas/architect.md`
     -   *Fallback:* If unknown, set Persona to `general.md`.
 
 2.  **Map Key Files (Context Hints)**:
@@ -67,7 +67,7 @@ description: Onboards a new repository or service into the workspace with auto-d
 ## 4. 🤖 Phase 4: Agent Initialization
 1.  **Inject Identity**:
     -   Check if `[Repo_Path]/AGENTS.md` exists.
-    -   *If No:* Copy from `.antigravity/templates/AGENTS.md` to `[Repo_Path]/AGENTS.md`.
+    -   *If No:* Copy from `[Workspace_Root]/.antigravity/templates/AGENTS.md` to `[Repo_Path]/AGENTS.md`.
     -   **Customize**:
         -   Replace `{{REPO_NAME}}` with `[Repo_Name]`.
         -   Replace `{{STACK}}` with `[Detected_Stack]`.

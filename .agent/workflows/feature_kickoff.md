@@ -10,7 +10,7 @@ description: Starts a new feature implementation process across the workspace.
 
 ## 1. 🛡️ Safety First (Pre-Flight Check)
 1.  **Dirty Check**:
-    -   Read `.context/repo_map.json` to find all active repositories.
+    -   Read `[Workspace_Root]/.context/repo_map.json` to find all active repositories.
     -   Run `git status --porcelain` in ALL target repos.
     -   **Rule:** If ANY repo has uncommitted changes -> **STOP**.
     -   **Action:** Ask user to `stash` or `commit` first. No "force checkout" allowed.
@@ -25,12 +25,12 @@ description: Starts a new feature implementation process across the workspace.
 
 ## 3. 📝 Plan Initialization (The Bridge)
 1.  **Context Loading (Smart Ingest)**:
-    -   **Search:** Check if `artifacts/rfc/[ID]*.md` exists.
+    -   **Search:** Check if `[Workspace_Root]/artifacts/rfc/[ID]*.md` exists.
     -   **If RFC Found:** Read it. Extract **BDD Scenarios** and **Schema Changes**.
     -   **If No RFC:** Prepare to ask user for requirements.
 
 2.  **Create Plan Artifact**:
-    -   **Execute**: `cp .antigravity/templates/plan.md artifacts/plans/plan_[ID].md`
+    -   **Execute**: `cp [Workspace_Root]/.antigravity/templates/plan.md [Workspace_Root]/artifacts/plans/plan_[ID].md`
     -   **Auto-Fill (Crucial)**:
         -   **Goal**: Summarize from RFC or User Input.
         -   **Scenarios**: Copy BDD tables from RFC (if available).
@@ -40,7 +40,7 @@ description: Starts a new feature implementation process across the workspace.
 3.  **Context Preservation (Auto-Save)**:
     -   **Read Current:** Check `[Workspace_Root]/.context/current_focus.md`.
     -   **Condition:** If an `Active Objective` exists AND differs from the new [ID].
-    -   **Action:** Copy current content to `.context/sessions/session_[Old_ID].md`.
+    -   **Action:** Copy current content to `[Workspace_Root]/.context/sessions/session_[Old_ID].md`.
     -   **Log:** "Previous session [Old_ID] saved to storage."
 
 4.  **Update Context (New Task)**:
@@ -48,9 +48,9 @@ description: Starts a new feature implementation process across the workspace.
     -   **Content:**
         -   **Active Objective:** [ID] [Title]
         -   **Active Branch:** [Branch_Name]
-        -   **Primary Plan:** `artifacts/plans/plan_[ID].md`
+        -   **Primary Plan:** `[Workspace_Root]/artifacts/plans/plan_[ID].md`
         -   **Status:** 🔵 Planning
 
 ## 4. 🤝 Handover
 1.  **Switch Mode**: Enter **PLANNING** mode.
-2.  **Prompt**: "Feature [ID] initialized. Previous context saved (if any). Review `artifacts/plans/plan_[ID].md` now?"
+2.  **Prompt**: "Feature [ID] initialized. Previous context saved (if any). Review `[Workspace_Root]/artifacts/plans/plan_[ID].md` now?"

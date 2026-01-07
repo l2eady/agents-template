@@ -13,9 +13,9 @@ description: Targeted Bug Triage & Resolution (Scientific Method)
     -   Read `[Workspace_Root]/.context/current_focus.md`.
     -   Look at the error logs or user report to identify the **suspect file/repo**.
 2.  **Adopt Persona (Dynamic)**:
-    -   **Consult Routing**: Check `repo_map.json` for the suspect file.
-        -   *Match `**/*.go`:* Load `.antigravity/personas/gopher.md`.
-        -   *Match `**/*.tsx`:* Load `.antigravity/personas/pixel.md`.
+    -   **Consult Routing**: Check `[Workspace_Root]/.context/repo_map.json` for the suspect file.
+        -   *Match `**/*.go`:* Load `[Workspace_Root]/.antigravity/personas/gopher.md`.
+        -   *Match `**/*.tsx`:* Load `[Workspace_Root]/.antigravity/personas/pixel.md`.
     -   **Apply Debug Overlay**:
         -   *Instruction:* "You are now in **DEBUG MODE**. Your priority is NOT feature delivery, but **Stability & Correctness**. Trust nothing. Verify everything."
 

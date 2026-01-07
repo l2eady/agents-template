@@ -2,7 +2,7 @@
 
 ## 🔗 References & Context
 - **JIRA**: [{JIRA_ID}]({BASE_JIRA_URL}/browse/{JIRA_ID})
-- **Plan**: [{Plan_ID}](artifacts/plans/plan_{ID}.md)
+- **Plan**: [{Plan_ID}]([Workspace_Root]/artifacts/plans/plan_{ID}.md)
 - **RFC**: [Link to RFC Artifact] (If applicable)
 
 ## 📝 Summary
@@ -19,7 +19,7 @@
 ## 🛡️ Quality Assurance (Definition of Done)
 *Verified against BDD Scenarios in Plan.*
 
-- [ ] **Unit Tests**: Passed (See `artifacts/logs/[ID]_qc_unit_...log`)
+- [ ] **Unit Tests**: Passed (See `[Workspace_Root]/artifacts/logs/[ID]_qc_unit_...log`)
 - [ ] **Evidence**: [Link to Execution Log]
 - [ ] **BDD Scenarios**:
     - [ ] SC-01: [Scenario Name]

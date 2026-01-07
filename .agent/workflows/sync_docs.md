@@ -9,9 +9,9 @@ description: The Documentarian
 **Goal:** Ensure documentation (AGENTS.md, README) matches the code reality.
 
 ## 1. 🕵️ Phase 1: Drift Analysis
-1.  **Adopt Persona**: Read `.antigravity/personas/documentarian.md`.
+1.  **Adopt Persona**: Read `[Workspace_Root]/.antigravity/personas/documentarian.md`.
 2.  **Identify Scope**:
-    -   Read `current_focus.md` to know the Feature Context.
+    -   Read `[Workspace_Root]/.context/current_focus.md` to know the Feature Context.
     -   Run `git diff main...HEAD --stat` to see what files changed.
 3.  **Gap Analysis**:
     -   *Check:* Did we add new Environment Variables? -> Check `README.md`.

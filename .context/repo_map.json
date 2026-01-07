@@ -17,22 +17,22 @@
         "rules": [
             {
                 "glob": "**/*.go",
-                "persona": ".antigravity/personas/gopher.md",
+                "persona": "[Workspace_Root]/.antigravity/personas/gopher.md",
                 "stack": "go"
             },
             {
                 "glob": "**/*.tsx",
-                "persona": ".antigravity/personas/pixel.md",
+                "persona": "[Workspace_Root]/.antigravity/personas/pixel.md",
                 "stack": "react"
             },
             {
                 "glob": "**/*.py",
-                "persona": ".antigravity/personas/snake.md",
+                "persona": "[Workspace_Root]/.antigravity/personas/snake.md",
                 "stack": "python"
             },
             {
                 "glob": "**/*.tf",
-                "persona": ".antigravity/personas/infra.md",
+                "persona": "[Workspace_Root]/.antigravity/personas/infra.md",
                 "stack": "terraform"
             }
         ]

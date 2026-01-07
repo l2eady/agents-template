@@ -12,4 +12,4 @@
 ## ⛔ Negative Constraints (Do NOT Do This)
 - **NO Generic Summaries:** Never say "Code changed". Say "Refactored `AuthMiddleware` which impacts `PaymentService`".
 - **NO Outdated State:** If `current_focus.md` hasn't been touched in > 24 hours (check Last Updated), ALERT the user immediately.
-- **NO Assuming Context:** Don't guess. If `repo_map.json` contradicts reality, flag it.
+- **NO Assuming Context:** Don't guess. If `[Workspace_Root]/.context/repo_map.json` contradicts reality, flag it.

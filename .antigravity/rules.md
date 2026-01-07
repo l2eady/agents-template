@@ -8,8 +8,8 @@
 You are running inside Google Antigravity. **DO NOT** just write code. For every complex task, you **MUST** generate an **Artifact** first.
 
 ### Artifact Protocol:
-1.  **Planning:** Create `artifacts/plans/plan_[task_id].md` before touching code.
-2.  **Evidence:** When testing, save output logs to `artifacts/logs/`.
+1.  **Planning:** Create `[Workspace_Root]/artifacts/plans/plan_[task_id].md` before touching code.
+2.  **Evidence:** When testing, save output logs to `[Workspace_Root]/artifacts/logs/`.
 3.  **Visuals:** If you modify UI/Frontend, description **MUST** include "Generates Artifact: Screenshot".
 
 ## 🧠 Context Management (Gemini 3 Native)
@@ -48,7 +48,7 @@ To ensure smooth collaboration in a Multi-Repo environment, you must adhere to t
 ## 💻 Coding Standards
 
 ### General
-- **Style:** Follow `.antigravity/coding_style.md` for detailed architectural rules.
+- **Style:** Follow `[Workspace_Root]/.antigravity/coding_style.md` for detailed architectural rules.
 - **Docstrings:** ALL functions and classes MUST have Google-style Docstrings.
 
 ### Python Specific

@@ -61,6 +61,6 @@
 
 ## 6. 💡 Common Patterns & Snippets
 - **Artifact Standard**:
-    - Research: `artifacts/research/research_[topic].md`
-    - RFC: `artifacts/rfc/rfc_[id]_[topic].md`
-    - Plan: `artifacts/plans/plan_[id]_[job].md`
+    - Research: `[Workspace_Root]/artifacts/research/research_[topic].md`
+    - RFC: `[Workspace_Root]/artifacts/rfc/rfc_[id]_[topic].md`
+    - Plan: `[Workspace_Root]/artifacts/plans/plan_[id]_[job].md`

@@ -21,28 +21,28 @@ description: [PR Checklist] Generates a PR description and validates readiness f
 
 ## 2. 📋 Phase 2: Definition of Done (DoD)
 1.  **Plan Verification**:
-    -   Read `artifacts/plans/plan_[ID].md`.
+    -   Read `[Workspace_Root]/artifacts/plans/plan_[ID].md`.
     -   **Constraint:** Are all checklist items `[ ]` marked as `[x]`?
     -   *If No:* **WARN**. "Plan is incomplete. Are you sure you want to open a PR?"
 2.  **Evidence Check**:
-    -   Scan `artifacts/logs/`.
+    -   Scan `[Workspace_Root]/artifacts/logs/`.
     -   **Constraint:** Is there a recent `[ID]_qc_...` log file that shows "PASS"?
     -   *If No:* **BLOCK**. "Missing QA Evidence. Run `@[/quality_check]` first."
 
 ## 3. 📄 Phase 3: The Description Generation
-1.  **Load Template**: Read `.antigravity/templates/pull_request.md`.
+1.  **Load Template**: Read `[Workspace_Root]/.antigravity/templates/pull_request.md`.
 2.  **Auto-Fill Strategy**:
     -   **Title:** `feat/fix: [ID] [Concise Title]`
-    -   **Summary:** Synthesize from `current_focus.md` (Objective) and `git log` (Changes).
-    -   **Impact:** Read `repo_map.json` -> List other repos if this is a cross-repo change.
+    -   **Summary:** Synthesize from `[Workspace_Root]/.context/current_focus.md` (Objective) and `git log` (Changes).
+    -   **Impact:** Read `[Workspace_Root]/.context/repo_map.json` -> List other repos if this is a cross-repo change.
     -   **Links:**
         -   **JIRA**: Resolve `{BASE_JIRA_URL}`.
-        -   **Plan**: Link to `artifacts/plans/plan_[ID].md`.
-        -   **RFC**: Link to `artifacts/rfc/...` (if exists).
+        -   **Plan**: Link to `[Workspace_Root]/artifacts/plans/plan_[ID].md`.
+        -   **RFC**: Link to `[Workspace_Root]/artifacts/rfc/...` (if exists).
 
 ## 4. 📤 Phase 4: Output
 1.  **Generate File**:
-    -   Save content to `docs/reports/pr_[ID].md`.
+    -   Save content to `[Workspace_Root]/docs/reports/pr_[ID].md`.
 2.  **Final Output**:
     -   Display the content in Chat (for easy copy-paste).
     -   "PR Description generated. Ready to ship! 🚀"

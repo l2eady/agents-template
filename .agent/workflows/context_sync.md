@@ -22,7 +22,7 @@ description: The Librarian (Context Sync)
     -   **Drift Check**: Does the current Git Branch match `Active Branch` in `current_focus.md`?
     -   *If Mismatch:* **[ERROR]** "Context Drift: System thinks you are on `[A]`, but Git is on `[B]`. Please align."
 2.  **Build Health Verify**:
-    -   Scan `artifacts/logs/` for the most recent `qc_unit` or `debug` log.
+    -   Scan `[Workspace_Root]/artifacts/logs/` for the most recent `qc_unit` or `debug` log.
     -   *If Status = FAIL:* "Warning: Last build failed. Priority is fixing the build."
 
 ## 3. 📝 Phase 3: Documentation Integrity

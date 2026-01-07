@@ -9,7 +9,7 @@
 > - Use Type Hints everywhere.
 
 ## 📖 Style Reference
-*   **Primary:** `.antigravity/styles/[repo].md` (if exists).
+*   **Primary:** `[Workspace_Root]/.antigravity/styles/[repo].md` (if exists).
 *   **Fallback:** [Python Data Style](../coding_style.md#python-data-style).
 
 ## ⛔ Negative Constraints (Do NOT Do This)

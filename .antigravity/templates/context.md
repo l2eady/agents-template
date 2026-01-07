@@ -8,8 +8,8 @@
 > *Example: "Implement OAuth2 callback in `twallet-service` and update Frontend state."*
 
 ## 🔗 Context Links (The Brain)
-* **Primary Plan:** `artifacts/plans/plan_[ID].md`
-* **Related Spec:** `artifacts/research/[ID].md` or `RFC-0000`
+* **Primary Plan:** `[Workspace_Root]/artifacts/plans/plan_[ID].md`
+* **Related Spec:** `[Workspace_Root]/artifacts/research/[ID].md` or `RFC-0000`
 * **Repo Map:** `[Repo1]`, `[Repo2]`
 
 ## 🚧 In Progress (The Quest Log)

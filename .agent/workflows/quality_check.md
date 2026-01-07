@@ -10,13 +10,13 @@ description: Runs quality checks (Unit Tests & E2E) across the workspace.
 
 ## 1. 👺 Phase 1: Adopt the Mindset
 1.  **Load Context**:
-    -   Read `.antigravity/personas/qa.md`.
+    -   Read `[Workspace_Root]/.antigravity/personas/qa.md`.
     -   Read `[Workspace_Root]/.context/current_focus.md`.
     -   **Extract ID**: Get the Active Objective ID (e.g., `JIRA-123`) -> Variable `[ID]`.
 2.  **Strategy Determination (Priority Order)**:
     -   **1. Turbo Check:** Does `turbo.json` exist? -> Use `npx turbo run test`.
     -   **2. Makefile Check:** Does `Makefile` exist AND contain `test:` target? -> Use `make test`.
-    -   **3. Native Fallback:** Identify stack from `repo_map.json` and use:
+    -   **3. Native Fallback:** Identify stack from `[Workspace_Root]/.context/repo_map.json` and use:
         -   Go: `go test -v ./...`
         -   JS/TS: `npm test`
         -   Python: `pytest`
@@ -24,7 +24,7 @@ description: Runs quality checks (Unit Tests & E2E) across the workspace.
 ## 2. 🧪 Phase 2: Unit Testing (The Safety Net)
 1.  **Execute**:
     -   Run the determined command.
-    -   **MANDATORY:** Pipe ALL output (Stdout + Stderr) to `artifacts/logs/[ID]_qc_unit_[TIMESTAMP].log`.
+    -   **MANDATORY:** Pipe ALL output (Stdout + Stderr) to `[Workspace_Root]/artifacts/logs/[ID]_qc_unit_[TIMESTAMP].log`.
 2.  **The "Clean Logs" Gate ⛔**:
     -   **Constraint (Exit Code):** If Exit Code != 0 -> **FAIL**.
     -   **Constraint (Strict Warnings):**
@@ -37,12 +37,12 @@ description: Runs quality checks (Unit Tests & E2E) across the workspace.
 *Only run if Unit Tests were clean.*
 
 1.  **Load Contracts**:
-    -   Read `artifacts/plans/plan_[ID].md` -> Extract "Verification Checklist (BDD)".
-    -   Read `artifacts/rfc/...` -> Check "Edge Cases" section.
+    -   Read `[Workspace_Root]/artifacts/plans/plan_[ID].md` -> Extract "Verification Checklist (BDD)".
+    -   Read `[Workspace_Root]/artifacts/rfc/...` -> Check "Edge Cases" section.
 
 2.  **Execute Scenarios (Automated First)**:
     -   **Action:** Convert BDD steps into `curl` commands or script calls.
-    -   **Output:** Save results to `artifacts/logs/[ID]_qc_e2e_[TIMESTAMP].log`.
+    -   **Output:** Save results to `[Workspace_Root]/artifacts/logs/[ID]_qc_e2e_[TIMESTAMP].log`.
     -   **Happy Path Check:** Run SC-01 (Success Case).
     -   **Edge Case Check:** Run SC-ERR-01 (Error Case).
 
@@ -54,7 +54,7 @@ description: Runs quality checks (Unit Tests & E2E) across the workspace.
 
 ## 4. 📝 Phase 4: The Verdict
 1.  **Evidence Review**:
-    -   Verify `artifacts/logs/` exists and contains files prefixed with `[ID]`.
+    -   Verify `[Workspace_Root]/artifacts/logs/` exists and contains files prefixed with `[ID]`.
 2.  **Reporting**:
-    -   **FAIL:** "QA Rejected. Found [Error/Warning]. See `artifacts/logs/[ID]_...`. Run `@[/debug]`."
+    -   **FAIL:** "QA Rejected. Found [Error/Warning]. See `[Workspace_Root]/artifacts/logs/[ID]_...`. Run `@[/debug]`."
     -   **PASS:** "QA Approved. Logic verified against BDD. No warnings in logs. Ready for `@[/pr_checklist]`."

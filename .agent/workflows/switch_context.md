@@ -17,12 +17,12 @@ description: Context Switcher
         -   **Action:** `git stash push -m "Auto-stash: Switching away from [Active_ID]"`
         -   **Log:** "Uncommitted changes stashed securely."
 3.  **Persist Context**:
-    -   Copy `current_focus.md` to `.context/sessions/session_[Active_ID].md`.
+    -   Copy `current_focus.md` to `[Workspace_Root]/.context/sessions/session_[Active_ID].md`.
     -   "Memory of [Active_ID] saved."
 
 ## 2. 📂 Phase 2: Restore Target State (The Arrival)
 1.  **Load Metadata**:
-    -   Check if `.context/sessions/session_[Target_ID].md` exists.
+    -   Check if `[Workspace_Root]/.context/sessions/session_[Target_ID].md` exists.
     -   *If Yes:* Copy it to `current_focus.md`.
     -   *If No:* Create a blank slate with `[Target_ID]`.
 2.  **Restore Git Branch**:

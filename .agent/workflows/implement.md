@@ -10,7 +10,7 @@ description: Implementation loop with Persona routing.
 ## 1. 🏗️ Phase 1: The Blueprint (Architect)
 1.  **Context Loading**:
     -   Read `[Workspace_Root]/.context/current_focus.md`.
-    -   **Constraint:** If no active Plan (`artifacts/plans/plan_[ID].md`) -> **STOP**.
+    -   **Constraint:** If no active Plan (`[Workspace_Root]/artifacts/plans/plan_[ID].md`) -> **STOP**.
     -   **Action:** Read the **Entire Plan File**.
     -   **State Check:** Identify the first unchecked item `[ ]` in "Step-by-Step Execution Strategy".
 
@@ -29,13 +29,13 @@ description: Implementation loop with Persona routing.
 
 ### Step 3.1: Persona Selection (Dynamic Switching)
 1.  **Identify Target**: Which file needs to be modified for this task?
-2.  **Navigate**: `cd [Repo_Path]` (Resolve path from `repo_map.json`).
+2.  **Navigate**: `cd [Repo_Path]` (Resolve path from `[Workspace_Root]/.context/repo_map.json`).
 3.  **Consult Routing**: Read `routing_rules` in `repo_map.json`.
-    -   *Match:* If file matches glob (e.g., `**/*.tsx`) -> Load mapped persona (e.g., `.antigravity/personas/pixel.md`).
+    -   *Match:* If file matches glob (e.g., `**/*.tsx`) -> Load mapped persona (e.g., `[Workspace_Root]/.antigravity/personas/pixel.md`).
     -   *No Match:* Load the `default` persona.
 4.  **Load Context**:
     -   Load Persona Rules ("Negative Constraints").
-    -   Load Style Guide: `.antigravity/styles/[repo].md`.
+    -   Load Style Guide: `[Workspace_Root]/.antigravity/styles/[repo].md`.
 
 ### Step 3.2: The Inner Loop (Targeted TDD)
 1.  **Test First (If applicable)**:
@@ -54,7 +54,7 @@ description: Implementation loop with Persona routing.
     -   `git commit -S -m "feat([ID]): [Task Description]"`
 
 ### Step 3.3: Plan Update
-1.  **Mark Complete**: Check `[x]` for the completed item in `artifacts/plans/plan_[ID].md`.
+1.  **Mark Complete**: Check `[x]` for the completed item in `[Workspace_Root]/artifacts/plans/plan_[ID].md`.
 2.  **Loop or Stop**:
     -   If more tasks exist in the current Phase -> **Repeat Phase 3**.
     -   If Phase is complete -> **Stop and Report**.
