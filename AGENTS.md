@@ -34,6 +34,16 @@
 4.  **Self-Contained:** The template must work "out of the box" after `make init`.
 5.  **Validation:** Before committing changes to `workflows/*.md`, ensure they do not reference non-existent paths or circular dependencies.
 
-## 5. Workflow Integration
-- **New Workflow?** Run `make plan ID=FLOW-XXX`.
-- **Verify Logic?** trace the `Trigger` -> `Goal` -> `Steps` flow.
+## 5. Workflow Integration (Antigravity OS)
+Use these slash commands to drive the SDLC:
+
+| Phase | Command | Purpose |
+| :--- | :--- | :--- |
+| **Start** | `@[/context_sync]` | Align context, git status, and logs. |
+| **Design** | `@[/system_design]` | Research & Draft RFCs (Security & Architecture). |
+| **Plan** | `@[/feature_kickoff]` | Create Branch & Implementation Plan. |
+| **Build** | `@[/implement]` | Write code with Persona routing & Targeted TDD. |
+| **Fix** | `@[/debug]` | Reproduce & Fix bugs using Scientific Method. |
+| **Verify** | `@[/quality_check]` | Run Unit & E2E Tests (Fail Fast). |
+| **Release** | `@[/pr_checklist]` | Generate PR Description & verify compliance. |
+| **Docs** | `@[/sync_docs]` | Ensure README/AGENTS.md matches code. |
