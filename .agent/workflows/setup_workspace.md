@@ -10,16 +10,16 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
 
 ## 1. 🧬 Foundation Injection
 1.  **Scaffold Structure**: 
-    - `cp -r .antigravity [Target]/`
+    - `cp -r .antigravity [Target]/.antigravity`
     - Ensure `.agent/`, `.context/` exist.
     - **Crucial:** `mkdir -p artifacts/logs artifacts/plans artifacts/research artifacts/rfc` (Create with `.gitkeep` if needed).
     - `cp Makefile AGENTS.md [Target]/` (If missing).
     - `cp -r .agent/workflows [Target]/.agent/` (Remove `setup_workspace.md` from target after copy).
 
 2.  **Initialize Context**:
-    - `cp .antigravity/templates/context.md .context/current_focus.md` (Do not overwrite if exists).
-    - Verify `.antigravity/templates/rfc.md` exists.
-    - Create/Reset `.context/repo_map.json` with skeletal v2.0 structure:
+    - `cp .antigravity/templates/context.md [Target]/.context/current_focus.md` (Do not overwrite if exists).
+    - Verify `[Target]/.antigravity/templates/rfc.md` exists.
+    - Create/Reset `[Target]/.context/repo_map.json` with skeletal v2.0 structure:
       ```json
       {
         "version": "2.0",
@@ -60,15 +60,22 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
             -   `routing_rules["**/Dockerfile"] = "infra"`
             -   `routing_rules["**/*.yaml"] = "infra"`
 
+    -   **Signal: Python (Data/Scripting)**
+        -   If `requirements.txt`, `pyproject.toml`, `Pipfile`, `setup.py` found:
+            -   `personas.python = "scripter"`
+            -   `routing_rules["**/*.py"] = "python"`
+            -   `routing_rules["**/*.ipynb"] = "python"`
+
 3.  **Determine Default**:
-    -   If `backend` exists -> `default = backend`
-    -   Else if `frontend` exists -> `default = frontend`
+    -   If `personas.backend` exists -> `default = backend`
+    -   Else If `personas.python` exists -> `default = python`
+    -   Else if `personas.frontend` exists -> `default = frontend`
     -   Else -> `default = architect`
 
 2.  **Style Distillery**:
-    - **Create Directory**: `mkdir -p .antigravity/styles`
+    - **Create Directory**: `mkdir -p [Target]/.antigravity/styles`
     - **Iterate through Repos**: For each identified repo:
-        - **Target**: `.antigravity/styles/[repo_name].md`
+        - **Target**: `[Target]/.antigravity/styles/[repo_name].md`
         - **Strategy A (Config detection)**:
              - Check for `.editorconfig`, `.prettierrc`, `.eslintrc`, `tsconfig.json`, `golangci.yml`.
              - If found, Create the generic style file and reference these configs.
@@ -100,10 +107,10 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
 ## 4. 🤝 Human-in-the-Loop Verification
 1.  **Batch Summary**: Display a table of detected repos and stacks.
 2.  **Global Config**: Ask "Enter JIRA URL" & "Enter GitHub Org URL".
-3.  **Fill Blanks**: Ask "Enter Staging URL for [Repo]" ONLY if detection failed.
+3.  **Fill Blanks**: Ask "Enter Staging/UAT/Production URL for [Repo]" ONLY if detection failed.
 
 ## 5. ✅ Finalize
-1.  **Enhance Global AGENTS.md**:
+1.  **Enhance Global [TARGET]/AGENTS.md**:
     - **If exists**: Read content. Locate or Create the `## Repositories` section. Upsert the repository list table. **Preserve** existing custom instructions.
-    - **If missing**: Create from `templates/AGENTS.md` and populate.
+    - **If missing**: Create from `.antigravity/templates/AGENTS.md` and populate.
 3.  **Boot Message**: "Workspace initialized. The Librarian is active. Run `@[/context_sync]` to start."

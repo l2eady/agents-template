@@ -63,21 +63,38 @@ sequenceDiagram
 
 ---
 
-## 4. Operational Considerations
+## 4. Security & Privacy
 
-### 4.1 Config / Env Vars
+### 4.1 Authentication (AuthN) & Authorization (AuthZ)
+- **Identification:** How is the user identified? (e.g., JWT, Session)
+- **Permissions:** What roles can access this? Is there a Check-Permission call?
+
+### 4.2 Data Protection
+- **PII:** Does this store Personally Identifiable Information?
+- **Encryption:** Is data encrypted at rest/in transit?
+- **Logging:** Ensure no secrets or PII are leaked in logs.
+
+### 4.3 Threat Modeling (The "What If")
+- [ ] What if the input is malicious (SQLi, XSS)?
+- [ ] What if the user tries to access another user's ID (BOLA)?
+
+---
+
+## 5. Operational Considerations
+
+### 5.1 Config / Env Vars
 - `MY_NEW_VAR`: Description
 
-### 4.2 Error Handling
+### 5.2 Error Handling
 - How do we handle failures? Retry logic?
 
-### 4.3 Metrics & Monitoring
+### 5.3 Metrics & Monitoring
 - What success metrics are we tracking?
 
-## 5. Alternatives Considered
+## 6. Alternatives Considered
 *What other options did we reject and why?*
 
-## 6. Verification Plan
+## 7. Verification Plan
 - [ ] Unit Tests: `make test`
 - [ ] Manual E2E Scenarios:
     1. Scenario A...

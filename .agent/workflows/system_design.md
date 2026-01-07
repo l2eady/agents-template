@@ -19,6 +19,7 @@ Use this workflow when you need to research and design a complex system before w
     - **Crucial:** Read `.antigravity/templates/rfc.md` first.
     - Copy the **Exact Structure** (including Sequence Diagrams and Tables) to `artifacts/rfc/{ID}_{Title}.md`.
     - **Context Resoloution**: Read `repo_map.json` "config" to resolve `{BASE_JIRA_URL}` and populate the JIRA link.
+    - **Security Review**: Adopt Persona 🛡️ **The Security Auditor**. Fill Section 4 (Security & Privacy) with a specific focus on AuthZ/AuthN.
     - Fill in the sections. Do not skip the "Technical Design" or "Sequence Diagram" sections.
 2.  **User Review**: Ask user to approve the RFC.
 

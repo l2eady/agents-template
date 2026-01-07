@@ -27,6 +27,16 @@
 3.  **API Contract:** Changes to API spec require an updated RFC first.
 4.  **Testing:** Every new function needs a Unit Test.
 
-## 5. Workflow Integration
-- **Starting a Task?** Run `@[/feature_kickoff]`.
-- **Ready to Merge?** Run `@[/pr_checklist]`.
+## 5. Workflow Integration (Antigravity OS)
+Use these slash commands to drive the SDLC:
+
+| Phase | Command | Purpose |
+| :--- | :--- | :--- |
+| **Start** | `@[/context_sync]` | Align context, git status, and logs. |
+| **Design** | `@[/system_design]` | Research & Draft RFCs (Security & Architecture). |
+| **Plan** | `@[/feature_kickoff]` | Create Branch & Implementation Plan. |
+| **Build** | `@[/implement]` | Write code with Persona routing & Targeted TDD. |
+| **Fix** | `@[/debug]` | Reproduce & Fix bugs using Scientific Method. |
+| **Verify** | `@[/quality_check]` | Run Unit & E2E Tests (Fail Fast). |
+| **Release** | `@[/pr_checklist]` | Generate PR Description & verify compliance. |
+| **Docs** | `@[/sync_docs]` | Ensure README/AGENTS.md matches code. |
