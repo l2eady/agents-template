@@ -63,14 +63,42 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
         -   `pyproject.toml` / `requirements.txt` -> **Stack: Python**
         -   `Dockerfile` / `terraform` -> **Stack: Infra**
 
-2.  **Generate `AGENTS.md`**:
-    -   Read `.antigravity/templates/AGENTS.md`.
-    -   Replace placeholders with detected stack info.
-    -   Write to `[Target_Path]/AGENTS.md`.
+2.  **Interactive Configuration (The Interview)**:
+    -   **Prompt User**: "I detected a **[Detected_Stack]** project. Please provide the following (or type 'skip'):"
+        1.  "**JIRA Base URL** (e.g., `https://mycompany.atlassian.net`)"
+        2.  "**GitHub/GitLab URL** (e.g., `https://github.com/myorg/myrepo`)"
+        3.  "**Staging Base URL** (e.g., `https://api.staging.example.com`)"
+
+3.  **Generate `repo_map.json`**:
+    -   Construct the JSON with user inputs (or placeholders `TODO_CHANGE_ME` if skipped).
+    -   **Write to**: `[Target_Path]/.context/repo_map.json`.
+    ```json
+    {
+      "meta": { "version": "2.0", "updated_at": "YYYY-MM-DD" },
+      "project_config": {
+        "base_jira_url": "[Input_JIRA_URL]",
+        "git_repo_url": "[Input_Git_URL]"
+      },
+      "repositories": {
+        "main": {
+          "path": ".",
+          "stack": "[Detected_Stack]",
+          "urls": {
+            "staging": "[Input_Staging_URL]",
+            "production": "TODO_CHANGE_ME"
+          }
+        }
+      }
+    }
+    ```
 
 ## 4. 🏁 Phase 4: Handoff
-1.  **Final Report**:
+1.  **Generate `AGENTS.md`**:
+    -   Read `.antigravity/templates/AGENTS.md`.
+    -   Replace `{{STACK}}` with `[Detected_Stack]`.
+    -   Write to `[Target_Path]/AGENTS.md`.
+
+2.  **Final Report**:
     -   "✅ Antigravity Framework installed to `[Target_Path]`."
-    -   "📂 Workflows, Personas, and Artifacts initialized."
-    -   "🗑️ Removed `setup_workspace.md` from target (Installer self-cleanup)."
-    -   "**Next Action:** Close this window and open `[Target_Path]` in VS Code to start working."
+    -   "⚙️ Configuration saved to `.context/repo_map.json`."
+    -   "**Next Action:** Close this window and open `[Target_Path]` in VS Code."
