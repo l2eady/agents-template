@@ -1,10 +1,9 @@
 # Pull Request: [Title]
 
-## Related Issue / URLs
-
-<!-- Link to the JIRA ticket or Confluence page -->
-
-- JIRA: [{JIRA_ID}]({BASE_JIRA_URL}/browse/{JIRA_ID})
+## References & Context
+- **JIRA**: [{JIRA_ID}]({BASE_JIRA_URL}/browse/{JIRA_ID})
+- **Plan**: [{Plan_ID}](artifacts/plans/plan_{ID}.md)
+- **RFC**: [Link] (If applicable)
 
 ## PR Title
 - `feat({JIRA_ID}): xxx`

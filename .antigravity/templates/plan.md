@@ -3,6 +3,8 @@
 > **Status**: [DRAFT / REVIEW / APPROVED]
 > **Owner**: [Agent Persona]
 > **Date**: YYYY-MM-DD
+> **JIRA**: [{JIRA_ID}]({BASE_JIRA_URL}/browse/{JIRA_ID})
+> **Related RFC**: [Link to RFC Artifact] | None
 
 ## 1. Goal Description
 *Provide a brief description of the problem, background context, and what the change accomplishes.*

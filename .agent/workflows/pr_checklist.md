@@ -21,8 +21,11 @@ description: Generates a PR description and validates readiness for review.
 2.  **Auto-Fill**:
     - **MANDATORY**: You must fill **EVERY** section in the template.
     - **Summary**: Synthesize from `current_focus.md` and `git log`.
+    - **References**:
+        - **JIRA**: Extract from Branch Name. Resolve URL via `repo_map.json`.
+        - **Plan**: Link to the active plan in `current_focus.md`.
+        - **RFC**: Link if available.
     - **Dependencies**: List Cross-Repo PRs.
-    - **JIRA**: Extract from Branch Name.
 
 ## 3. 🛡️ Strict Compliance Check
 1.  **Log Validation**:

@@ -27,7 +27,9 @@ description: Starts a new feature implementation process across the workspace.
     - **Execute**: `cp .antigravity/templates/plan.md artifacts/plans/plan_[ID].md`
     - **Validation**: Verify file exists at `[Workspace_Root]/artifacts/plans/plan_[ID].md`.
     - **MANDATORY**: Fill **EVERY** section defined in the template. Do not skip "User Review" or "Verification".
-    - *Tip:* If an RFC exists (`artifacts/rfc/[ID]...`), link it in the plan.
+    - **Links**:
+        - Resolve `{BASE_JIRA_URL}` from `repo_map.json` and replace `{JIRA_ID}`.
+        - If an RFC exists (`artifacts/rfc/[ID]...`), link it in `Related RFC`. Otherwise, set to `None`.
     - Set Status to **PLANNING**.
 2.  **Update Context**:
     - Update `current_focus.md` at **Workspace Root** (`[Workspace_Root]/.context/current_focus.md`).

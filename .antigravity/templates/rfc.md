@@ -4,7 +4,8 @@
 | :--- | :--- |
 | **Date** | YYYY-MM-DD |
 | **Author** | [Name] |
-| **JIRA** | [Link] |
+| **JIRA** | [{JIRA_ID}]({BASE_JIRA_URL}/browse/{JIRA_ID}) |
+| **Parent RFC** | [Link] (Optional) |
 
 ## 1. Context & Problem Statement
 *What is the problem? Why do we need to make this decision?*
