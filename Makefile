@@ -39,7 +39,7 @@ e2e: ## Run integration tests
 plan: ## [Input: ID=...] Start a new Feature Kickoff structure
 	@if [ -z "$(ID)" ]; then echo "❌ Please specify ID (e.g., make plan ID=JIRA-123)"; exit 1; fi
 	@echo "${GREEN}🏗️  Initializing Plan for $(ID)...${RESET}"
-	@cp .antigravity/templates/rfc.md $(ARTIFACTS_DIR)/plans/plan_$(ID).md
+	@cp .antigravity/templates/plan.md $(ARTIFACTS_DIR)/plans/plan_$(ID).md
 	@echo "✅ Created $(ARTIFACTS_DIR)/plans/plan_$(ID).md"
 	@echo "👉 Next: Trigger Agent with @[/feature_kickoff] $(ID)"
 

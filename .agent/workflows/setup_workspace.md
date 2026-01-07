@@ -66,8 +66,24 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
     -   Else -> `default = architect`
 
 2.  **Style Distillery**:
-    - Check `.editorconfig`, `.prettierrc`.
-    - Generate `.antigravity/styles/[repo_name].md` (Copy from global defaults if specific config found).
+    - **Create Directory**: `mkdir -p .antigravity/styles`
+    - **Iterate through Repos**: For each identified repo:
+        - **Target**: `.antigravity/styles/[repo_name].md`
+        - **Strategy A (Config detection)**:
+             - Check for `.editorconfig`, `.prettierrc`, `.eslintrc`, `tsconfig.json`, `golangci.yml`.
+             - If found, Create the generic style file and reference these configs.
+        - **Strategy B (Inference)**:
+             - *If no config is found:*
+             - **Read**: Sample 3-5 source files (e.g., `main.go`, `App.tsx`).
+             - **Analyze**: Indentation, casing (camel vs snake), error handling patterns, structure.
+             - **Synthesize**: Write a succinct "Style Guide" into the target markdown file.
+             - **Format**:
+               ```markdown
+               # Style Guide: [Repo Name]
+               - Indent: [X] Spaces
+               - Casing: [Camel/Snake]
+               - Patterns: [Common patterns]
+               ```
 
 3.  **Heuristic Config Mining**:
     - **URLs:** content-search `.env.example`, `helm/values.yaml` for `BASE_URL`.

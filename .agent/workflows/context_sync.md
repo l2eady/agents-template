@@ -10,7 +10,7 @@ description: The Librarian (Context Sync)
 
 ## 1. 🧠 Identity & Knowledge Load
 1.  **Adoption**: Read `.antigravity/personas/librarian.md`.
-2.  **Load State**: Read `.context/repo_map.json` and `.context/current_focus.md`.
+2.    - **Load State**: Read `[Workspace_Root]/.context/repo_map.json` and `[Workspace_Root]/.context/current_focus.md`.
 
 ## 2. 📡 Reality Check (The Deep Scan)
 *Agent executes commands to perceive the actual state.*
@@ -44,7 +44,7 @@ description: The Librarian (Context Sync)
     - **Warning:** "Context Drift Detected. You left code open."
 
 ## 5. 💾 Write-Back (The Pulse)
-1.  **Update `current_focus.md`**:
+1.    - **Update `[Workspace_Root]/.context/current_focus.md`**:
     - **Active Objective:** Synthesize from JIRA + Git.
     - **Status:** 🟢 / 🟡 / 🔴.
     - **Mental Snapshot:** "Last working on [Repo]. Hypothesis: [Hypothesis]."

@@ -9,7 +9,7 @@ description: Implementation loop with Persona routing.
 
 ## 1. 🏗️ Phase 1: The Blueprint (Architect)
 1.  **Context Check**:
-    - Read `current_focus.md` at **Workspace Root** (`.context/current_focus.md`).
+    - Read `current_focus.md` at **Workspace Root** (`[Workspace_Root]/.context/current_focus.md`).
     - **Constraint:** If no active Plan/RFC -> **STOP**. "Plan First Approach required. Run `@[/feature_kickoff]`."
 
 ## 2. 🌉 Phase 2: The Handover (Bridge)
@@ -42,6 +42,6 @@ description: Implementation loop with Persona routing.
 
 ## 4. 🛡️ Phase 4: The Report
 1.  **Status Update**:
-    - Update `current_focus.md` at **Workspace Root** (`.context/current_focus.md`) with progress.
+    - Update `current_focus.md` at **Workspace Root** (`[Workspace_Root]/.context/current_focus.md`) with progress.
 2.  **Ready for QA**:
     - "Implementation complete. Run `@[/quality_check]` to verify."
