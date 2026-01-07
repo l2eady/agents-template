@@ -1,28 +1,67 @@
 ---
-description: Initiates a Research & Design phase before coding begins.
+description: System Design & RFC phase before coding begins.
 ---
 
 # System Design Workflow (Pre-Code)
 
-Use this workflow when you need to research and design a complex system before writing implementation code.
 
-## 1. Research Phase
-1.  **🤯 Adopt Persona**:
-    - **Read `.antigravity/personas/architect.md`**.
-    - *Shift your mindset to high-level design and trade-offs.*
 
-2.  **Trigger**: User says "Research X" or "Design X for JIRA-123".
-3.  **Output**: Create `artifacts/research/{ID}_{Topic}.md`.
+**Trigger:** `@[/system_design]` or `User: "Design X"`
+**Goal:** Transform ambiguous requirements into a concrete, approved technical specification.
 
-## 2. Architecture Decision (RFC)
-1.  **Draft RFC**:
-    - **Crucial:** Read `.antigravity/templates/rfc.md` first.
-    - Copy the **Exact Structure** (including Sequence Diagrams and Tables) to `artifacts/rfc/{ID}_{Title}.md`.
-    - **Context Resoloution**: Read `repo_map.json` "config" to resolve `{BASE_JIRA_URL}` and populate the JIRA link.
-    - **Security Review**: Adopt Persona 🛡️ **The Security Auditor**. Fill Section 4 (Security & Privacy) with a specific focus on AuthZ/AuthN.
-    - Fill in the sections. Do not skip the "Technical Design" or "Sequence Diagram" sections.
-2.  **User Review**: Ask user to approve the RFC.
 
-## 3. Handover to Implementation
-- Once RFC is **Accepted**, you are ready for `/feature_kickoff`.
-- **Crucial Link**: The `{ID}` used in filenames here (e.g., `JIRA-123`) MUST match the ID used in `feature_kickoff`.
+## 1. 🧠 Analysis & Research (Optional)
+*Perform this step if multiple approaches exist or the path is unclear.*
+
+1.  **Adopt Persona**:
+    -   **Role**: 🏗️ **The Architect** (Read `.antigravity/personas/architect.md`).
+    -   *Mindset*: Focus on Scalability, Maintainability, and Trade-offs.
+
+2.  **Trade-off Analysis**:
+    -   **Action**: Create `artifacts/research/{ID}_tradeoff.md`.
+    -   **Structure**:
+        1.  **Problem Statement**: What are we solving?
+        2.  **Options**: Compare at least 2 approaches (e.g., *Option A: Polling* vs *Option B: WebSocket*).
+        3.  **Pros/Cons Matrix**: Use a Markdown table.
+        4.  **Recommendation**: Pick one and justify why.
+
+3.  **Visual Thinking**:
+    -   Draft a rough **Mermaid** sequence diagram or flowchart in the research file to visualize the complexity.
+
+
+## 2. 📝 Architecture Decision (RFC)
+*This is the Source of Truth. Do not skip.*
+
+1.  **Load Template**:
+    -   Read `.antigravity/templates/rfc.md`.
+
+2.  **Drafting**:
+    -   **Action**: Create `artifacts/rfc/{ID}_{Slug}.md`.
+    -   **Metadata**: Set `Status: DRAFT` in the frontmatter/header.
+    -   **Link**: Add `[JIRA Link]({BASE_URL}/browse/{ID})` (Resolve `BASE_URL` from `.context/repo_map.json`).
+    -   **Synthesis**: Import the *Winning Option* from the Research phase (if applicable).
+
+3.  **🛡️ Security Injection (The Auditor)**:
+    -   *Shift Persona:* 🛡️ **The Security Auditor**.
+    -   **Audit**: Review the draft specifically for IDOR, Injection, and PII leaks.
+    -   **Action**: Fill the "Security & Privacy" section of the RFC.
+    -   **Constraint**: If AuthZ is complex, require a specific Sequence Diagram for the Auth flow.
+
+## 3. 🚦 The Approval Gate
+1.  **Review Request**: Present the RFC to the user.
+    -   *Prompt:* "Please review `artifacts/rfc/{ID}_{Slug}.md`. Should I refine or approve?"
+
+2.  **On Rejection**:
+    -   Iterate on the specific section based on feedback.
+    -   Keep `Status: DRAFT`.
+
+3.  **On Approval**:
+    -   **Action**: Change metadata to `Status: APPROVED` in the RFC file.
+    -   **Freeze**: Treat this document as **Immutable** (unless a new RFC supersedes it).
+
+## 4. 🤝 Handover
+-   **Output**: "RFC Approved. Ready for implementation."
+-   **Next Action**: Suggest running the kickoff workflow:
+    ```bash
+    @[/feature_kickoff] {ID}
+    ```

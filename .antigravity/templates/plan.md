@@ -1,38 +1,52 @@
 # IMPL-[ID]: [Title]
 
-> **Status**: [DRAFT / REVIEW / APPROVED]
-> **Owner**: [Agent Persona]
+> **Status**: [PLANNING / IN_PROGRESS / DONE]
+> **Owner**: [Agent Persona, e.g., Gopher + Pixel]
 > **Date**: YYYY-MM-DD
 > **JIRA**: [{JIRA_ID}]({BASE_JIRA_URL}/browse/{JIRA_ID})
 > **Related RFC**: [Link to RFC Artifact] | None
 
 ## 1. Goal Description
-*Provide a brief description of the problem, background context, and what the change accomplishes.*
+*Briefly describe the problem and the "Definition of Done".*
+*(Auto-filled from RFC Context)*
 
 ## 2. User Review Required (Critical)
-*Document anything that requires user review or clarification (e.g., breaking changes, significant design decisions).*
+*Document decisions requiring user attention.*
 > **Use GitHub Alerts (IMPORTANT/WARNING)**
+- [ ] Breaking Change: [Description]
+- [ ] Config Change: [Description]
 
-- [ ] Decision 1...
-- [ ] Breaking Change X...
+## 3. 🛠️ Step-by-Step Execution Strategy
+*Order is critical. Dependencies first.*
 
-**(If none, explicitly state "None")**
+### Phase 1: Foundation (DB & Config)
+- [ ] **[Repo: Backend]** Migration: Add column `x` to table `y`.
+- [ ] **[Repo: Infra]** Env Var: Add `ENABLE_FEATURE_X`.
 
-## 3. Proposed Changes
+### Phase 2: Core Logic (Backend)
+- [ ] **[Repo: Backend]** Domain: Create `struct/model`.
+- [ ] **[Repo: Backend]** Service: Implement business logic.
+- [ ] **[Repo: Backend]** API: Add Handler/Controller.
+
+### Phase 3: Consumer (Frontend/Client)
+- [ ] **[Repo: Frontend]** API Client: Update Type/Interface.
+- [ ] **[Repo: Frontend]** UI: Create Component.
+
+## 4. Proposed File Changes (The "What")
 *Group files by component. Use [NEW], [MODIFY], [DELETE].*
 
 ### Component: [Name]
 - [NEW] `path/to/new_file.go`
 - [MODIFY] `path/to/existing_file.go`
-    - *Brief note on what changes inside.*
 
-## 4. Verification Plan
-*Summary of how you will verify changes.*
+## 5. 🧪 Verification Checklist (BDD)
+*Copy exact scenarios from RFC. These are your Pass/Fail criteria.*
 
-### 4.1 Automated Tests
-- Command: `make test`
-- New Unit Tests: [List coverage areas]
+### Automated Tests
+- [ ] **Unit Tests**: Coverage > 80% for new logic.
+- [ ] **SC-01 (Happy Path)**: [Description]
+- [ ] **SC-ERR-01 (Error Case)**: [Description]
 
-### 4.2 Manual Verification
-- Command: `curl ...`
-- Expected Output: `...`
+### Manual Verification
+- Command: `curl -X POST ...`
+- Expected: `200 OK { ... }`

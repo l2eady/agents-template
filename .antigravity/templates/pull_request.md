@@ -1,80 +1,55 @@
-# Pull Request: [Title]
+# [{JIRA_ID}] [Title]
 
-## References & Context
+## 🔗 References & Context
 - **JIRA**: [{JIRA_ID}]({BASE_JIRA_URL}/browse/{JIRA_ID})
 - **Plan**: [{Plan_ID}](artifacts/plans/plan_{ID}.md)
-- **RFC**: [Link] (If applicable)
+- **RFC**: [Link to RFC Artifact] (If applicable)
 
-## PR Title
-- `feat({JIRA_ID}): xxx`
-- `bugfix({JIRA_ID}): xxx`
-- `refactor({JIRA_ID}): xxx`
-- `chore({JIRA_ID}): xxx`
-
-## Summary
-
+## 📝 Summary
 ### Background / Context
-
-<!-- Describe the background and context that led to this PR -->
-[Briefly describe the problem or requirement. Context used: `artifacts/plans/plan_[ID].md`]
+[Auto-filled by Workflow]
 
 ### What This PR Does
+[Auto-filled by Workflow]
 
-<!-- Briefly describe what this PR does and what improvements it brings -->
+## 🛠️ Changes
+- **[Component]**: [Description]
+- **[Component]**: [Description]
 
+## 🛡️ Quality Assurance (Definition of Done)
+*Verified against BDD Scenarios in Plan.*
 
-## Changes
+- [ ] **Unit Tests**: Passed (See `artifacts/logs/[ID]_qc_unit_...log`)
+- [ ] **Evidence**: [Link to Execution Log]
+- [ ] **BDD Scenarios**:
+    - [ ] SC-01: [Scenario Name]
+    - [ ] SC-ERR-01: [Scenario Name]
 
-<!-- Describe the changes in detail (Files touched, Logic changed) -->
+## 🔗 Dependencies & Impact
+- [ ] **Cross-Repo**: Merge PR [Repo_Name]#[PR_ID] first.
+- [ ] **Infra**: Update configuration in [Infra_Repo]#[PR_ID].
+- [ ] **Agents**: Updated `AGENTS.md` (if logic changed).
 
-## 🔗 Dependencies
-<!-- List any PRs that must be merged before this one -->
-- [ ] Merge PR [Repo_Name]#[PR_ID] first.
-- [ ] Update Infra configuration in [Infra_Repo]#[PR_ID].
-
-## 🤖 Agentic Impact
-- [ ] Updated `AGENTS.md` to reflect new logic for this feature.
+## 🚀 Post-Deployment Tasks
+- [ ] Monitor error logs for `[Error_Key]`
+- [ ] Verify metrics: `[Metric_Name]`
 
 ---
 
-### Testing
+## 📢 Slack Notification
+Hi Team, please help review: **[{JIRA_ID}] [Title]**
 
-<!-- Describe what tests you have performed or plan to perform (Unit Tests / E2E / Manual) -->
-- [ ] **Unit Tests**: `make test` (Pass/Fail) -> See `artifacts/logs/...`
-- [ ] **E2E Tests**: `make e2e` (Pass/Fail)
-- [ ] **Strict Mode**: Execution Logs attached? (Required by QA)
+- **PR Link**: [Link]
+- **Jira Link**: [{BASE_JIRA_URL}/browse/{JIRA_ID}]
+- **Impact**: [High/Medium/Low]
 
-## Post-Deployment Tasks
+## 🧪 How to Test on Staging
+*Copy-paste to verify immediately.*
 
-<!-- Tasks that need to be done after deployment -->
-
-- [ ] Monitor error logs
-- [ ] Verify database schema
-- [ ] Verify metrics
-
-------
-
-## Slack Notification
-Hi Team,
-
-please help review: [Title]
-
-PR Link: [Link]
-
-Jira Link: [{BASE_JIRA_URL}/browse/{JIRA_ID}]
-
-## How to Test on Staging
-- **Secret Token**: `[Get from Infra Repository/Vault/1Password]` (Do NOT hardcode here)
-- **User Token**: `Bearer {xxx}`
-- **Base URL**: `{REPO_STAGING_URL}` (See `repo_map.json`)
-- **Template**:
+- **Config**: Get tokens from Vault/1Password (Do NOT hardcode).
+- **Curl Template**:
   ```bash
   curl -v -X POST "{REPO_STAGING_URL}/[ENDPOINT]" \
-    -H "Authorization: [Secret]" \
+    -H "Authorization: Bearer $TOKEN" \
     -H "Content-Type: application/json" \
     -d '{"key": "value"}'
-  ```
-
-## Test Scenarios
-
-<!-- Test Scenarios that might be useful for QA Team -->

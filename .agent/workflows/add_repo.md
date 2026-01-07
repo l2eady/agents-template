@@ -2,81 +2,83 @@
 description: Onboards a new repository or service into the workspace with auto-discovery and validation.
 ---
 
-#  Workflow: Add Repository
+# ➕ Workflow: Add Repository
+
 **Trigger:** `@[/add_repo] [URL/Path]`
-**Primary Persona:** 📚 The Librarian
+**Persona:** 📚 **The Librarian** (System Admin)
 **Goal:** Ingest a repo, map its metadata (Stack, Persona, Key Files), and register it in `repo_map.json`.
 
-## 1. 📥 Ingestion & Validation
+## 1. 📥 Phase 1: Ingestion & Validation
 1.  **Check Context Map**:
-    - Read `.context/repo_map.json`.
-    - If `[Folder_Name]` already exists in keys -> **STOP**. Warn user: "Repo already registered."
+    -   Read `[Workspace_Root]/.context/repo_map.json`.
+    -   **Validation:** If `[Repo_Name]` already exists in `repositories` keys -> **STOP**. Warn: "Repo already registered."
 
-2.  **Check Disk**:
-    - Check if directory `[Folder_Name]` exists.
-    - If YES but not in Map -> Ask: "Folder exists. Import as [Repo_Name]?"
-    - If NO -> Run `git clone [URL]` or `mkdir [Path]`.
+2.  **Check Filesystem**:
+    -   **Condition A (URL):** If input is a Git URL:
+        -   Execute: `git clone [URL]` into `[Workspace_Root]/[Repo_Name]`.
+    -   **Condition B (Folder):** If input is a local path:
+        -   Verify directory exists.
+        -   *If No:* **STOP**. "Directory not found."
 
-## 2. 🕵️ Auto-Discovery (The Brain)
-*Scan the new folder to determine metadata automatically.*
+## 2. 🕵️ Phase 2: Auto-Discovery (The Brain)
+*Scan the folder to infer metadata.*
 
-1.  **Detect Stack & Persona**:
-    - Only one match per repo. Priority order:
-    - `go.mod` found? -> **Stack:** `go` | **Persona:** `gopher`
-    - `package.json` + `react`? -> **Stack:** `react` | **Persona:** `pixel`
-    - `requirements.txt` / `pyproject.toml`? -> **Stack:** `python` | **Persona:** `scripter`
-    - `gradle.properties` / `.kts`? -> **Stack:** `kotlin` | **Persona:** `kotlin_backend`
-    - `Dockerfile` / `Chart.yaml` -> **Stack:** `infra` | **Persona:** `architect`
+1.  **Detect Stack & Persona (Priority Order)**:
+    -   *Scan Root Files:*
+        -   `go.mod` -> **Stack:** `go` | **Persona:** `.antigravity/personas/gopher.md`
+        -   `package.json` + (`next`/`react`) -> **Stack:** `react` | **Persona:** `.antigravity/personas/pixel.md`
+        -   `package.json` + (`nest`/`express`) -> **Stack:** `node` | **Persona:** `.antigravity/personas/backend.md`
+        -   `requirements.txt` / `pyproject.toml` -> **Stack:** `python` | **Persona:** `.antigravity/personas/snake.md`
+        -   `Dockerfile` / `k8s/` -> **Stack:** `infra` | **Persona:** `.antigravity/personas/architect.md`
+    -   *Fallback:* If unknown, set Persona to `general.md`.
 
 2.  **Map Key Files (Context Hints)**:
-    - **Entry Point:** Find `cmd/main.go`, `src/index.ts`, `app/main.py`.
-    - **Infra:** Find `Dockerfile`, `docker-compose.yml`, `k8s/`.
-    - **Specs:** Find `api/openapi.yaml`, `proto/*.proto`.
+    -   **Entry:** Find `cmd/main.go`, `src/index.ts`, `app.py`.
+    -   **Config:** Find `.env.example`, `config.yaml`.
+    -   **Specs:** Find `api/openapi.yaml`, `proto/*.proto`.
 
 3.  **Detect Commands**:
-    - Check `Makefile` or `package.json`.
-    - extract `test`, `build`, `lint` commands.
+    -   **Test:** Check `Makefile` for `test:` target OR `package.json` for `"test":`.
+    -   **Lint:** Check for `.eslintrc`, `.golangci.yml`.
 
-## 3. 🗺️ Register in Context (The Map)
+## 3. 🗺️ Phase 3: Register in Context
 1.  **Update `repo_map.json`**:
-    - Add the new entry under `repositories`:
+    -   Read current JSON.
+    -   Append new entry under `repositories`:
     ```json
-    "[Folder_Name]": {
-        "path": "[Rel_Path]",
+    "[Repo_Name]": {
+        "path": "./[Repo_Name]",
         "type": "service",
         "stack": "[Detected_Stack]",
         "persona": "[Detected_Persona]",
-        "key_files": ["[Entry_Point]", "[Dockerfile]"],
-        "urls": {
-            "staging": "https://[project]-staging.opn.dev",
-            "production": "https://[project].opn.dev"
-        },
-        "style_guide": ".antigravity/styles/[Detected_Stack].md",
+        "key_files": ["[Entry_File]", "[Spec_File]"],
         "commands": {
             "test": "[Detected_Test_Cmd]",
-            "build": "[Detected_Build_Cmd]"
+            "lint": "[Detected_Lint_Cmd]"
         },
         "owner": {
-            "team": "[Ask_User]",
-            "slack": "[Ask_User]"
+            "team": "TBD",
+            "slack": "TBD"
         }
     }
     ```
+    -   **Save File.**
 
-## 4. 🤖 Agent Initialization
-1.  **Create/Update `AGENTS.md` (in the new repo)**:
-    - Copy from `.antigravity/templates/AGENTS.md`.
-    - **Inject Context**:
-        - **[Repo Name]**: Folder name.
-        - **[Persona]**: Detected Persona (e.g., `gopher`).
-        - **[Architecture]**: Infer if possible (e.g. `internal/core` -> Hexagonal), else "Layered".
-        - **[Key Locations]**: Map discovered entry points.
-    - **Instruction**: "Review `AGENTS.md` and confirm Architecture pattern."
+## 4. 🤖 Phase 4: Agent Initialization
+1.  **Inject Identity**:
+    -   Check if `[Repo_Path]/AGENTS.md` exists.
+    -   *If No:* Copy from `.antigravity/templates/AGENTS.md` to `[Repo_Path]/AGENTS.md`.
+    -   **Customize**:
+        -   Replace `{{REPO_NAME}}` with `[Repo_Name]`.
+        -   Replace `{{STACK}}` with `[Detected_Stack]`.
+        -   Replace `{{PERSONA}}` with `[Detected_Persona]`.
+    -   *Instruction:* "Created `AGENTS.md`. Please review architecture patterns."
 
-## 5. ✅ Sanity Check (Verification)
+## 5. ✅ Phase 5: Verification
 1.  **Dry Run**:
-    - Try running the detected test command (e.g. `make test --dry-run` or just check `make help`).
-    - **Rule:** If command fails or missing, set `commands.test` in `repo_map.json` to `"manual_check_required"`.
-
-2.  **Notification**:
-    - "Repo [Name] onboarded successfully. Configured for [Persona]. Please review `repo_map.json`."
+    -   Try running the detected test command (e.g., `make help` or `go version`).
+    -   **Rule:** If command fails, update `repo_map.json` commands to `"manual_check_required"`.
+2.  **Final Report**:
+    -   "Repo **[Repo_Name]** onboarded."
+    -   "**Stack:** [Stack] | **Persona:** [Persona]"
+    -   "**Action:** Please fill in `owner` details in `repo_map.json`."

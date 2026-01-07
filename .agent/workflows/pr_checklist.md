@@ -1,40 +1,48 @@
 ---
-description: Generates a PR description and validates readiness for review.
+description: [PR Checklist] Generates a PR description and validates readiness for review.
 ---
 
 # 📝 Workflow: PR Checklist
 
 **Trigger:** `@[/pr_checklist]`
-**Persona:** 🛡️ Senior QA + 📝 Documentarian
+**Persona:** 🛡️ **Senior QA** + 📝 **The Documentarian**
+**Goal:** Prepare a clean, secure, and well-documented Pull Request.
 
-## 1. 🕵️ Readiness & Security Scan (The Paranoia)
-1.  **Secret Scan**:
-    - Check staged files (`git diff --cached --name-only`).
-    - **Regex Match:** `.env`, `.pem`, `key`, `secret`, `token`, `password`.
-    - **Rule:** If match found -> **STOP**. "Security Risk: Sensitive file detected."
+## 1. 🧹 Phase 1: Git Hygiene & Security
+1.  **Commit Audit**:
+    -   Scan `git log -n 20`.
+    -   **Detection:** Look for "wip", "fix", "temp", "debug", or `ai-wip`.
+    -   **Action:** If found, advise user: "Multiple WIP commits detected. Consider squashing before PR."
+    -   *Suggestion:* `git rebase -i HEAD~[N]`
+2.  **Secret Scan (The Paranoia)**:
+    -   Check staged files (`git diff --cached --name-only`).
+    -   **Regex Match:** `.env`, `.pem`, `key`, `secret`, `token`, `password`, `credentials.json`.
+    -   **Rule:** If match found -> **STOP**. "Security Risk: Sensitive file detected in staging area."
 
-2.  **Dirty Check**:
-    - Are there unstaged changes? "Warning: PR might be incomplete."
+## 2. 📋 Phase 2: Definition of Done (DoD)
+1.  **Plan Verification**:
+    -   Read `artifacts/plans/plan_[ID].md`.
+    -   **Constraint:** Are all checklist items `[ ]` marked as `[x]`?
+    -   *If No:* **WARN**. "Plan is incomplete. Are you sure you want to open a PR?"
+2.  **Evidence Check**:
+    -   Scan `artifacts/logs/`.
+    -   **Constraint:** Is there a recent `[ID]_qc_...` log file that shows "PASS"?
+    -   *If No:* **BLOCK**. "Missing QA Evidence. Run `@[/quality_check]` first."
 
-## 2. 📄 Template Generation
+## 3. 📄 Phase 3: The Description Generation
 1.  **Load Template**: Read `.antigravity/templates/pull_request.md`.
-2.  **Auto-Fill**:
-    - **MANDATORY**: You must fill **EVERY** section in the template.
-    - **Summary**: Synthesize from `current_focus.md` and `git log`.
-    - **References**:
-        - **JIRA**: Extract from Branch Name. Resolve URL via `repo_map.json`.
-        - **Plan**: Link to the active plan in `current_focus.md`.
-        - **RFC**: Link if available.
-    - **Dependencies**: List Cross-Repo PRs.
+2.  **Auto-Fill Strategy**:
+    -   **Title:** `feat/fix: [ID] [Concise Title]`
+    -   **Summary:** Synthesize from `current_focus.md` (Objective) and `git log` (Changes).
+    -   **Impact:** Read `repo_map.json` -> List other repos if this is a cross-repo change.
+    -   **Links:**
+        -   **JIRA**: Resolve `{BASE_JIRA_URL}`.
+        -   **Plan**: Link to `artifacts/plans/plan_[ID].md`.
+        -   **RFC**: Link to `artifacts/rfc/...` (if exists).
 
-## 3. 🛡️ Strict Compliance Check
-1.  **Log Validation**:
-    - "Does `artifacts/logs/` contain a passing test run?"
-    - **Rule:** If No -> Flag as "Missing Verification Evidence".
-
-## 4. 📝 Documentation Review
-1.  **Agent Logic**:
-    - "Did `AGENTS.md` change?"
-2.  **Output**:
-    - Generate PR description to `docs/reports/pr_[ID].md`.
-    - "PR Draft saved. Copy content to GitHub/GitLab."
+## 4. 📤 Phase 4: Output
+1.  **Generate File**:
+    -   Save content to `docs/reports/pr_[ID].md`.
+2.  **Final Output**:
+    -   Display the content in Chat (for easy copy-paste).
+    -   "PR Description generated. Ready to ship! 🚀"

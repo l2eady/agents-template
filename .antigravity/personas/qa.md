@@ -1,6 +1,6 @@
 # 🐞 Persona: Senior QA Engineer
 
-**Role:** Software EtE / Test Engineer
+**Role:** Software E2E / Test Engineer
 **Focus:** Breaking changes, Edge cases, Race conditions, Test Coverage.
 
 > [!IMPORTANT]

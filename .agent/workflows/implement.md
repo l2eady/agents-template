@@ -5,43 +5,62 @@ description: Implementation loop with Persona routing.
 # 🐝 Workflow: Implement
 
 **Trigger:** `@[/implement]` or `ag run`
-**Goal:** strict, persona-driven code execution with Cross-Repo awareness.
+**Goal:** Execute the Plan with strict, persona-driven code generation and Cross-Repo awareness.
 
 ## 1. 🏗️ Phase 1: The Blueprint (Architect)
-1.  **Context Check**:
-    - Read `current_focus.md` at **Workspace Root** (`[Workspace_Root]/.context/current_focus.md`).
-    - **Constraint:** If no active Plan/RFC -> **STOP**. "Plan First Approach required. Run `@[/feature_kickoff]`."
+1.  **Context Loading**:
+    -   Read `[Workspace_Root]/.context/current_focus.md`.
+    -   **Constraint:** If no active Plan (`artifacts/plans/plan_[ID].md`) -> **STOP**.
+    -   **Action:** Read the **Entire Plan File**.
+    -   **State Check:** Identify the first unchecked item `[ ]` in "Step-by-Step Execution Strategy".
 
 ## 2. 🌉 Phase 2: The Handover (Bridge)
-*Before writing code, check the impact.*
+*Before writing code, check the impact of the current task.*
 1.  **Impact Analysis**:
-    - Scan `repo_map.json`.
-    - Check `common/`, `proto/` for recent changes.
+    -   Scan `[Workspace_Root]/.context/repo_map.json`.
+    -   Check if the task involves `common/` or `proto/`.
 2.  **Contract Check**:
-    - "Does this change require a Proto/API update?"
-    - *If Yes:* "Has the Proto PR been merged?" -> If No, **BLOCK**.
+    -   "Does this specific task require a Proto/API update?"
+    -   *If Yes:* "Has the Proto/Interface been updated in a previous step?" -> If No, **PRIORITIZE** that task first.
 
-## 3. 🐝 Phase 3: The Execution (Swarm)
 
-2.  **Persona Selection (Dynamic Switching)**:
-    -   **Identify Target File**: specific file being modified.
-    -   **Consult Routing**: Read `routing_rules` in `.context/repo_map.json` (Workspace Root).
-        -   *Match:* If file matches glob (e.g. `**/*.tsx`) -> Load mapped persona (e.g. `pixel`).
-        -   *No Match:* Load the `default` persona.
-    -   **Load Context**: Load Persona file & `.antigravity/styles/[repo].md`.
-    -   **Constraint:** Adhere to "Negative Constraints" strictly.
+## 3. 🐝 Phase 3: The Execution Loop (Swarm)
+*Execute the following loop for the current incomplete task from the Plan.*
 
-2.  **The Inner Loop (Targeted TDD)**:
-    - **Scope**: Identify *only* the specific file/function being modified.
-    - **Targeted Test**: Create or identify a *targeted unit test* (avoid running full suite).
-    - **Code**: Write code to satisfy the plan and the test.
-    - **Verify**: Run the *targeted test*.
-        - *Pass:* `git commit -m "feat: [step details]"`
-        - *Fail:* Read error, Fix, Retry (Max 3 retries).
-    - **Refactor**: Check against "Negative Constraints" before moving on.
+### Step 3.1: Persona Selection (Dynamic Switching)
+1.  **Identify Target**: Which file needs to be modified for this task?
+2.  **Navigate**: `cd [Repo_Path]` (Resolve path from `repo_map.json`).
+3.  **Consult Routing**: Read `routing_rules` in `repo_map.json`.
+    -   *Match:* If file matches glob (e.g., `**/*.tsx`) -> Load mapped persona (e.g., `.antigravity/personas/pixel.md`).
+    -   *No Match:* Load the `default` persona.
+4.  **Load Context**:
+    -   Load Persona Rules ("Negative Constraints").
+    -   Load Style Guide: `.antigravity/styles/[repo].md`.
+
+### Step 3.2: The Inner Loop (Targeted TDD)
+1.  **Test First (If applicable)**:
+    -   Create or Identify a *Targeted Unit Test* for this specific function.
+    -   *Constraint:* Do NOT run the full suite. Use `go test -run [TestName]` or `jest -t [TestName]`.
+2.  **Code Gen**:
+    -   Write code to satisfy the Plan item and the Test.
+    -   **Constraint:** Adhere strictly to the loaded Persona & Style Guide.
+3.  **Verify & Fix**:
+    -   Run the targeted test.
+    -   *Pass:* Proceed to Commit.
+    -   *Fail:* Analyze error -> Fix -> Retry (Max 3 retries).
+    -   *Critical Failure:* If 3 retries fail, **STOP** and ask user for guidance.
+4.  **Commit**:
+    -   `git add [File]`
+    -   `git commit -S -m "feat([ID]): [Task Description]"`
+
+### Step 3.3: Plan Update
+1.  **Mark Complete**: Check `[x]` for the completed item in `artifacts/plans/plan_[ID].md`.
+2.  **Loop or Stop**:
+    -   If more tasks exist in the current Phase -> **Repeat Phase 3**.
+    -   If Phase is complete -> **Stop and Report**.
 
 ## 4. 🛡️ Phase 4: The Report
 1.  **Status Update**:
-    - Update `current_focus.md` at **Workspace Root** (`[Workspace_Root]/.context/current_focus.md`) with progress.
+    -   Update `[Workspace_Root]/.context/current_focus.md`.
 2.  **Ready for QA**:
-    - "Implementation complete. Run `@[/quality_check]` to verify."
+    -   Output: "Phase completed. [N] tasks executed. Run `@[/quality_check]` to verify."

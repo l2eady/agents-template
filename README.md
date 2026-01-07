@@ -21,10 +21,16 @@ This template enforces a strict **"Plan First"** and **"Persona-Driven"** workfl
 .
 ├── .agent/workflows/       # 🧠 The Logic: Step-by-step agent instructions
 │   ├── setup_workspace.md  # 🏗️ Wizard for new machines
+│   ├── add_repo.md         # ➕ Onboard new repositories
+│   ├── context_sync.md     # 📚 Wake-up routine
+│   ├── system_design.md    # 📐 RFC & Architecture planning
 │   ├── feature_kickoff.md  # 🚀 Start here! (Plan First)
 │   ├── implement.md        # 🐝 The Coding Loop
+│   ├── debug.md            # 🐞 Scientific Debugging
 │   ├── quality_check.md    # 🚧 Turbo/Fail-Fast Tests
-│   └── context_sync.md     # 📚 Wake-up routine
+│   ├── pr_checklist.md     # 📦 Release & PR Generation
+│   ├── sync_docs.md        # 📝 Documentation Updates
+│   └── switch_context.md   # 🔄 Switch active focus
 ├── .antigravity/           # 🏛️ The Core: Templates & Personas
 │   ├── personas/           # Identity files
 │   └── templates/          # RFC, PR, Directives
@@ -64,39 +70,36 @@ make init
 
 ---
 
-## 🛠️ Daily Workflows
+## 🛠️ Antigravity Workflows (The OS)
 
-### ☀️ Morning Routine
-**"Wake up" the agent and sync context.**
-```bash
-@[/context_sync]
-# Checks Git output, failing logs, and drift.
-```
+Drive the Software Development Life Cycle (SDLC) using these slash commands.
 
-### 🏗️ Start a New Feature
-**Never write code without a plan.**
-```bash
-@[/feature_kickoff] JIRA-123
-# 1. Checks for dirty files (Safety First)
-# 2. Creates 'feat/JIRA-123-slug' branch
-# 3. Creates Plan Artifact
-```
+### Phase 1: Strategic Planning
+| Goal | Command | Description |
+| :--- | :--- | :--- |
+| **Sync Context** | `@[/context_sync]` | **Start here.** Align your mind with the codebase state. |
+| **Design System** | `@[/system_design]` | **New Feature?** Draft an RFC. Resolve Security/Arch trade-offs. |
+| **Start Feature** | `@[/feature_kickoff]` | **Ready to code?** Generate the Plan, Branch, and Scaffolding. |
 
-### 🐝 Implement & Code
-**Execute the plan with Swarm Intelligence.**
-```bash
-@[/implement]
-# 1. Architect checks Plan/RFC
-# 2. Bridge checks Cross-Repo Impact
-# 3. Gopher/Pixel writes code (Targeted TDD)
-```
+### Phase 2: Execution (The Loop)
+| Goal | Command | Description |
+| :--- | :--- | :--- |
+| **Write Code** | `@[/implement]` | **Build.** Iterative TDD. Persona-routed editing. |
+| **Fix Bugs** | `@[/debug]` | **Stuck?** Isolate, Reproduce, Regress, Fix. (Scientific Method). |
+| **Switch** | `@[/switch_context]` | **Jump.** Safely switch context between repositories. |
 
-### 🚧 Verify & PR
-**Strict Mode: No evidence, no merge.**
-```bash
-@[/quality_check]  # Run Unit/E2E tests (Fail Fast)
-@[/pr_checklist]   # Generate PR Description + Security Scan
-```
+### Phase 3: Finalization
+| Goal | Command | Description |
+| :--- | :--- | :--- |
+| **Verify** | `@[/quality_check]` | **Gatekeeper.** Run fully regression suite. |
+| **Ship** | `@[/pr_checklist]` | **Release.** Generate Change Log & PR Description. |
+| **Document** | `@[/sync_docs]` | **Housekeeping.** Update README/AGENTS.md. |
+
+### 🔧 Administration
+| Goal | Command | Description |
+| :--- | :--- | :--- |
+| **Setup** | `@[/setup_workspace]` | **Init.** Wizard to setup a new workspace. |
+| **Add Repo** | `@[/add_repo]` | **Grow.** Onboard a new repository or service. |
 
 ---
 
@@ -106,10 +109,12 @@ make init
 | :--- | :--- |
 | `make init` | Create folder structure. |
 | `make test-all` | Run tests across ALL repos in `repo_map.json`. |
+| `make e2e` | Run integration tests (infrastructure/e2e). |
 | `make plan ID=X` | Initialize a generic Plan file. |
 | `make pr ID=X` | Initialize a PR Report file. |
+| `make clean` | Clean up temporary logs. |
 
 ---
 
 ## 📜 License
-MA
+MIT

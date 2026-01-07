@@ -1,17 +1,18 @@
 # RFC 0000: [Title]
 
-| Status | Proposed / Accepted / Deprecated |
+| Meta | Details |
 | :--- | :--- |
+| **Status** | DRAFT / REVIEW / APPROVED / DEPRECATED |
 | **Date** | YYYY-MM-DD |
 | **Author** | [Name] |
 | **JIRA** | [{JIRA_ID}]({BASE_JIRA_URL}/browse/{JIRA_ID}) |
-| **Parent RFC** | [Link] (Optional) |
+| **References** | [Link to Doc 1], `filename.md`, [Design FigJam] |
 
 ## 1. Context & Problem Statement
-*What is the problem? Why do we need to make this decision?*
+*What is the problem? Why do we need to make this decision? What is the business value?*
 
 ## 2. Proposed Solution (High Level)
-*Brief summary of the approach.*
+*Brief summary of the approach. Explain "How it works" simply.*
 
 ---
 
@@ -21,81 +22,114 @@
 ```mermaid
 sequenceDiagram
     participant User
-    participant API
+    participant System
     participant DB
-    User->>API: Request
-    API->>DB: Query
-    DB-->>API: Result
-    API-->>User: Response
+    User->>System: Input
+    System->>DB: Process
+    DB-->>System: Result
+    System-->>User: Output
 ```
 
-### 3.2 API Endpoint (If applicable)
-- **Method:** `POST /...`
-- **Request Body:**
+### 3.2 Interface Definition (Choose One)
+#### 🅰️ Option A: REST / HTTP
+- **Endpoint:** `POST /v1/resource`
+- **Request:**
   ```json
-  {}
+  { "field": "value" }
   ```
-- **Response:**
+- **Response (200 OK):**
   ```json
-  {}
+  { "id": "123" }
+  ```
+
+#### 🅱️ Option B: gRPC (Protobuf)
+- **Service:** `PaymentService`
+- **RPC:** `rpc ProcessPayment(PaymentRequest) returns (PaymentResponse)`
+- **Proto Snippet:**
+  ```protobuf
+  message PaymentRequest {
+    string user_id = 1;
+    int64 amount = 2;
+  }
+  ```
+
+#### © Option C: GraphQL
+- **Type:** Query / Mutation
+- **Signature:**
+  ```graphql
+  mutation CreateOrder($input: CreateOrderInput!) {
+    createOrder(input: $input) {
+      id
+      status
+    }
+  }
+  ```
+
+#### ⓓ Option D: CLI Command
+- **Command:** `ag-cli deploy [service-name]`
+- **Flags:**
+  - `--dry-run`: Preview changes.
+- **Output:**
+  ```text
+  Deploying... [OK]
   ```
 
 ### 3.3 Database Schema Changes
-| Table | Column | Type | Description |
-| :--- | :--- | :--- | :--- |
-| `users` | `status` | ENUM | Added 'archived' state |
+| Table | Column | Type | Index? | Description |
+| :--- | :--- | :--- | :--- | :--- |
+| `users` | `status` | ENUM | ❌ | Added 'archived' state |
 
-### 3.4 Business Logic / Algorithm
-<!-- Keep this high-level. DO NOT write actual code here. Use flowcharts or pseudocode. -->
-1. Step 1...
-2. Step 2...
+### 3.4 Business Logic & Algorithm
+1.  **Validation:** Input check.
+2.  **Process:** Core logic.
+3.  **State:** Persistence.
 
-### 3.5 Cross-Repo Impact & Contracts
-- **Affected Repos:** [List Repos e.g., `payment-service`, `frontend-dashboard`]
+### 3.5 🧪 BDD Scenarios (The Contract)
+**Feature:** [Feature Name]
+
+#### 📧 Core Scenarios (Happy Path)
+| ID | Scenario | Given (Pre-condition) | When (Action) | Then (Expected Result) |
+| :--- | :--- | :--- | :--- | :--- |
+| **SC-01** | **Success Case** | User is active | Calls API/CMD | Success response received |
+
+#### 🛡️ Operational & Edge Cases
+| ID | Scenario | Given (Pre-condition) | When (Action) | Then (Expected Result) |
+| :--- | :--- | :--- | :--- | :--- |
+| **SC-ERR-01** | **Validation Fail** | Invalid Input | Calls API/CMD | Error message displayed |
+
+---
+
+## 4. Cross-Repo Impact (The Bridge)
+- **Affected Repos:** [List Repos]
 - **Contract Changes:**
-  - [ ] `common/proto`: New field `currency_code` added.
-  - [ ] `openapi/spec`: Endpoint `/v1/charge` deprecated.
-- **Breaking Change?** [Yes/No] (If Yes, link to Migration Plan)
+  - [ ] `proto/`: New field added.
+  - [ ] `openapi/`: Endpoint deprecated.
 
-### 3.6 Consistency & Concurrency
-- **Transaction Scope:** (e.g. SAGA Pattern, 2-Phase Commit, or localized DB tx)
-- **Race Conditions:** How do we handle double-submit? (e.g. Idempotency Key)
+## 5. Security & Privacy (The Auditor)
+### 5.1 AuthN & AuthZ
+- **Identity:** How is the caller verified? (JWT / API Key / IAM Role)
+- **Scope:** What permissions are needed?
 
----
-
-## 4. Security & Privacy
-
-### 4.1 Authentication (AuthN) & Authorization (AuthZ)
-- **Identification:** How is the user identified? (e.g., JWT, Session)
-- **Permissions:** What roles can access this? Is there a Check-Permission call?
-
-### 4.2 Data Protection
-- **PII:** Does this store Personally Identifiable Information?
-- **Encryption:** Is data encrypted at rest/in transit?
-- **Logging:** Ensure no secrets or PII are leaked in logs.
-
-### 4.3 Threat Modeling (The "What If")
-- [ ] What if the input is malicious (SQLi, XSS)?
-- [ ] What if the user tries to access another user's ID (BOLA)?
+### 5.2 Data Protection
+- **PII:** Does this touch PII? [Yes/No]
 
 ---
 
-## 5. Operational Considerations
+## 6. Operational Considerations
+### 6.1 Configuration
+| Key | Type | Default | Description |
+| :--- | :--- | :--- | :--- |
+| `ENABLE_FEATURE` | Flag | `false` | Rollout control |
 
-### 5.1 Config / Env Vars
-- `MY_NEW_VAR`: Description
+### 6.2 Observability
+- **Metrics:** Key counters/histograms.
+- **Logs:** Important log events.
 
-### 5.2 Error Handling
-- How do we handle failures? Retry logic?
-
-### 5.3 Metrics & Monitoring
-- What success metrics are we tracking?
-
-## 6. Alternatives Considered
-*What other options did we reject and why?*
+### 6.3 Migration Strategy
+- **Rollout Plan:**
+  1.  [ ] Step 1...
+  2.  [ ] Step 2...
 
 ## 7. Verification Plan
-- [ ] Unit Tests: `make test`
-- [ ] Manual E2E Scenarios:
-    1. Scenario A...
-    2. Scenario B...
+- [ ] **Unit Tests:** Cover all BDD Scenarios.
+- [ ] **Integration:** Test end-to-end.

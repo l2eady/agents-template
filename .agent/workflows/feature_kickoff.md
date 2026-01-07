@@ -6,38 +6,51 @@ description: Starts a new feature implementation process across the workspace.
 
 **Trigger:** `@[/feature_kickoff] [JIRA-ID]`
 **Persona:** 🏗️ The Architect
-**Goal:** Cleanly initialize a new feature across the swarm (Safe Branching + Plan).
+**Goal:** Cleanly initialize a new feature across the swarm (Safe Branching + Plan + Context Switching).
 
 ## 1. 🛡️ Safety First (Pre-Flight Check)
 1.  **Dirty Check**:
-    - Run `git status --porcelain` in ALL target repos.
-    - **Rule:** If ANY repo has uncommitted changes -> **STOP**.
-    - **Action:** Ask user to `stash` or `commit` first. No "force checkout" allowed.
+    -   Read `.context/repo_map.json` to find all active repositories.
+    -   Run `git status --porcelain` in ALL target repos.
+    -   **Rule:** If ANY repo has uncommitted changes -> **STOP**.
+    -   **Action:** Ask user to `stash` or `commit` first. No "force checkout" allowed.
 
 ## 2. 🌲 Universal Branching
 1.  **Generate Branch Name**:
-    - Format: `feat/[ID]-[short-slug]` (e.g. `feat/JIRA-1931-email-cron`).
-    - *Slug Generation:* Extract keywords from JIRA title or User prompt.
+    -   Format: `feat/[ID]-[short-slug]` (e.g. `feat/JIRA-1931-email-cron`).
+    -   *Slug Generation:* Extract keywords from JIRA title or User prompt.
 2.  **Sync Creation**:
-    - Identify impacted repos (Architect decision).
-    - `git checkout -b [Branch_Name]` on those repos only.
+    -   Identify impacted repos based on the user request.
+    -   **Execute:** `git checkout -b [Branch_Name]` on those repos only.
 
-## 3. 📝 Plan Initialization
-1.  **Create Plan**:
-    - **Execute**: `cp .antigravity/templates/plan.md artifacts/plans/plan_[ID].md`
-    - **Validation**: Verify file exists at `[Workspace_Root]/artifacts/plans/plan_[ID].md`.
-    - **MANDATORY**: Fill **EVERY** section defined in the template. Do not skip "User Review" or "Verification".
-    - **Links**:
-        - Resolve `{BASE_JIRA_URL}` from `repo_map.json` and replace `{JIRA_ID}`.
-        - If an RFC exists (`artifacts/rfc/[ID]...`), link it in `Related RFC`. Otherwise, set to `None`.
-    - Set Status to **PLANNING**.
-2.  **Update Context**:
-    - Update `current_focus.md` at **Workspace Root** (`[Workspace_Root]/.context/current_focus.md`).
-    - **Crucial**: Ensure you are writing to the root context folder, NOT a subdirectory.
-        - **Active Objective:** [ID] [Title]
-        - **Active Branch:** [Branch_Name]
-        - **Primary Plan:** `artifacts/plans/plan_[ID].md`
+## 3. 📝 Plan Initialization (The Bridge)
+1.  **Context Loading (Smart Ingest)**:
+    -   **Search:** Check if `artifacts/rfc/[ID]*.md` exists.
+    -   **If RFC Found:** Read it. Extract **BDD Scenarios** and **Schema Changes**.
+    -   **If No RFC:** Prepare to ask user for requirements.
+
+2.  **Create Plan Artifact**:
+    -   **Execute**: `cp .antigravity/templates/plan.md artifacts/plans/plan_[ID].md`
+    -   **Auto-Fill (Crucial)**:
+        -   **Goal**: Summarize from RFC or User Input.
+        -   **Scenarios**: Copy BDD tables from RFC (if available).
+        -   **Links**: Resolve `{BASE_JIRA_URL}` from `repo_map.json`.
+    -   **Status**: Set to `Status: PLANNING`.
+
+3.  **Context Preservation (Auto-Save)**:
+    -   **Read Current:** Check `[Workspace_Root]/.context/current_focus.md`.
+    -   **Condition:** If an `Active Objective` exists AND differs from the new [ID].
+    -   **Action:** Copy current content to `.context/sessions/session_[Old_ID].md`.
+    -   **Log:** "Previous session [Old_ID] saved to storage."
+
+4.  **Update Context (New Task)**:
+    -   Overwrite `[Workspace_Root]/.context/current_focus.md` with new template data.
+    -   **Content:**
+        -   **Active Objective:** [ID] [Title]
+        -   **Active Branch:** [Branch_Name]
+        -   **Primary Plan:** `artifacts/plans/plan_[ID].md`
+        -   **Status:** 🔵 Planning
 
 ## 4. 🤝 Handover
 1.  **Switch Mode**: Enter **PLANNING** mode.
-2.  **Prompt**: "Feature [ID] initialized on branch [Branch]. Plan skeleton created. Ready to draft implementation details?"
+2.  **Prompt**: "Feature [ID] initialized. Previous context saved (if any). Review `artifacts/plans/plan_[ID].md` now?"
