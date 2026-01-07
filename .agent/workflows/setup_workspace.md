@@ -5,13 +5,13 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
 # 🏗️ Workflow: Setup Workspace (Installer)
 
 **Trigger:** `@[/setup_workspace] [Target_Path]`
-**Example:** `@[/setup_workspace] ../OPN`
+**Example:** `@[/setup_workspace] ../OPN-Workspace`
 **Persona:** 🚚 **The Distro** (Installer Agent)
-**Goal:** Install Antigravity Framework into a target external directory.
+**Goal:** Install Antigravity into a target directory, handling multi-repo discovery with strict priority logic to avoid false positives.
 
 ## 1. 🎯 Phase 1: Target Validation
 1.  **Parse Input**:
-    -   Identify `[Target_Path]` from the trigger.
+    -   Identify `[Target_Path]`.
     -   *Constraint:* If empty, ask "Where should I install? (e.g., `../OPN` or `./target`)".
 2.  **Verify Path**:
     -   Check if directory `[Target_Path]` exists.
@@ -35,88 +35,110 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
         -   `cp -r .antigravity/templates [Target_Path]/.antigravity/`
     -   **Workflows**:
         -   `cp .agent/workflows/* [Target_Path]/.agent/workflows/`
-        -   **Cleanup:** Remove this installer workflow from the target to avoid recursion.
+        -   **Cleanup:** Remove this installer workflow from the target.
         -   `rm [Target_Path]/.agent/workflows/setup_workspace.md`
     -   **Root Files**:
-        -   `cp Makefile [Target_Path]/` (if exists)
-
-3.  **Config Bootstrap**:
-    -   **Context**:
+        -   `cp Makefile [Target_Path]/` (if exists and target is empty)
         -   `cp .antigravity/templates/context.md [Target_Path]/.context/current_focus.md`
-    -   **Repo Map**:
-        -   *Check:* If `[Target_Path]/.context/repo_map.json` missing -> Create basic structure.
+
+## 3. 🕵️ Phase 3: Priority Discovery (The Logic)
+*Scan sub-directories with Strict Priority to handle hybrid repos (e.g. Kotlin with Proto/Go).*
+
+1.  **Global Configuration**:
+    -   **Prompt User**: "Starting Setup. Please provide Global Configs (or 'skip'):"
+        1.  "**JIRA Base URL**"
+        2.  "**GitHub/GitLab Org URL**"
+
+2.  **Initialize Map**: `repositories = {}`
+
+3.  **Scan Loop**:
+    *Loop through immediate sub-directories of `[Target_Path]`. For each folder `[Repo_Name]`:*
+
+    -   **🚦 Step 3.1: Stack Detection (Strict Priority Chain)**:
+        *Evaluate in this EXACT order. Stop at the first match.*
+
+        * **Priority 1: JVM (Kotlin/Java)**
+            * **Check:** Does `[Repo_Name]/build.gradle.kts`, `build.gradle`, or `pom.xml` exist?
+            * **If Yes:**
+                * **Stack:** `kotlin`
+                * **Persona:** `.antigravity/personas/kotlin_backend.md`
+                * **Action:** Break loop (Ignore any `go.mod` inside).
+
+        * **Priority 2: Python**
+            * **Check:** Does `[Repo_Name]/pyproject.toml`, `poetry.lock` exist?
+            * **If Yes:**
+                * **Stack:** `python`
+                * **Persona:** `.antigravity/personas/snake.md`
+                * **Action:** Break loop.
+
+        * **Priority 3: Node/TypeScript**
+            * **Check:** Does `[Repo_Name]/package.json` exist?
+            * **If Yes:**
+                * **Stack:** `typescript`
+                * **Persona:** `.antigravity/personas/pixel.md` (Assuming Frontend/Fullstack).
+                * **Action:** Break loop.
+
+        * **Priority 4: Go (Verified)**
+            * **Check:** Does `[Repo_Name]/go.mod` exist?
+            * **Verification:** check for `main.go` inside root OR `cmd/` folder.
+            * **If Verified:**
+                * **Stack:** `go`
+                * **Persona:** `.antigravity/personas/gopher.md`
+                * **Action:** Break loop.
+            * **If Unverified (No main.go):** Treat as library/schema, continue to next check.
+
+        * **Priority 5: Infrastructure**
+            * **Check:** `[Repo_Name]/Dockerfile`, `*.tf`, `charts/` exist?
+            * **If Yes:**
+                * **Stack:** `infra`
+                * **Persona:** `.antigravity/personas/architect.md`
+
+    -   **🎨 Step 3.2: Style Guide Generation**:
+        * **File:** `[Target_Path]/.antigravity/styles/[Repo_Name].md`
+        * **Logic:**
+            * *Kotlin:* Default to `ktlint` rules.
+            * *Python:* Default to `ruff` rules.
+            * *TS:* Default to `eslint/prettier`.
+            * *Go:* Default to `golangci-lint`.
+        * **Action:** Write file with header `# Style Guide: [Repo_Name]`.
+
+    -   **🗺️ Step 3.3: Map Construction**:
+        * Add to `repositories` object:
         ```json
-        {
-          "meta": { "version": "2.0", "updated_at": "YYYY-MM-DD" },
-          "project_config": { "base_jira_url": "", "repo_staging_url": "" },
-          "repositories": {}
+        "[Repo_Name]": {
+            "path": "./[Repo_Name]",
+            "stack": "[Detected_Stack]",
+            "persona": "[Mapped_Persona]",
+            "style_guide": ".antigravity/styles/[Repo_Name].md",
+            "urls": {
+                "staging": "TBD",
+                "production": "TBD"
+            }
         }
         ```
 
-## 3. 🕵️ Phase 3: Remote Discovery
-*Scan the [Target_Path] to generate its local configuration.*
-
-1.  **Scan Target Stack**:
-    -   Check files inside `[Target_Path]`:
-        -   `go.mod` -> **Stack: Go**
-        -   `package.json` -> **Stack: Node/React**
-        -   `pyproject.toml` / `requirements.txt` -> **Stack: Python**
-        -   `Dockerfile` / `terraform` -> **Stack: Infra**
-
-2.  **Style Distillery**:
-    -   **Target**: `[Target_Path]/.antigravity/styles/main.md`
-    -   **Strategy A (Config detection)**:
-         - Check for `.editorconfig`, `.prettierrc`, `.eslintrc`, `tsconfig.json`, `golangci.yml`.
-         - If found, Create the generic style file and reference these configs.
-    -   **Strategy B (Inference)**:
-         - *If no config is found:*
-         - **Read**: Sample 3-5 source files (e.g., `main.go`, `App.tsx`).
-         - **Analyze**: Indentation, casing (camel vs snake), error handling patterns, structure.
-         - **Synthesize**: Write a succinct "Style Guide" into the target markdown file.
-         - **Format**:
-           ```markdown
-           # Style Guide: [Detected_Stack]
-           - Indent: [X] Spaces
-           - Casing: [Camel/Snake]
-           - Patterns: [Common patterns]
-           ```
-
-3.  **Interactive Configuration (The Interview)**:
-    -   **Prompt User**: "I detected a **[Detected_Stack]** project. Please provide the following (or type 'skip'):"
-        1.  "**JIRA Base URL** (e.g., `https://mycompany.atlassian.net`)"
-        2.  "**GitHub/GitLab URL** (e.g., `https://github.com/myorg/myrepo`)"
-        3.  "**Staging Base URL** (e.g., `https://api.staging.example.com`)"
-
-4.  **Generate `repo_map.json`**:
-    -   Construct the JSON with user inputs (or placeholders `TODO_CHANGE_ME` if skipped).
+4.  **Write `repo_map.json`**:
+    -   Combine Config + Repositories.
     -   **Write to**: `[Target_Path]/.context/repo_map.json`.
     ```json
     {
-      "meta": { "version": "2.0", "updated_at": "YYYY-MM-DD" },
+      "meta": { "version": "2.1", "updated_at": "YYYY-MM-DD" },
       "project_config": {
         "base_jira_url": "[Input_JIRA_URL]",
-        "git_repo_url": "[Input_Git_URL]"
+        "git_org_url": "[Input_Git_URL]"
       },
-      "repositories": {
-        "main": {
-          "path": ".",
-          "stack": "[Detected_Stack]",
-          "urls": {
-            "staging": "[Input_Staging_URL]",
-            "production": "TODO_CHANGE_ME"
-          }
-        }
-      }
+      "repositories": [repositories_object]
     }
     ```
 
 ## 4. 🏁 Phase 4: Handoff
 1.  **Generate `AGENTS.md`**:
     -   Read `.antigravity/templates/AGENTS.md`.
-    -   Replace `{{STACK}}` with `[Detected_Stack]`.
+    -   **Inject**: Table of Repositories, Stacks, and Personas.
     -   Write to `[Target_Path]/AGENTS.md`.
 
 2.  **Final Report**:
-    -   "✅ Antigravity Framework installed to `[Target_Path]`."
-    -   "⚙️ Configuration saved to `.context/repo_map.json`."
+    -   "✅ Antigravity Installed to `[Target_Path]`."
+    -   "🔍 **Discovery:** Mapped Repos with priority logic."
+    -   "🎨 **Styles:** Generated per-repo style guides."
     -   "**Next Action:** Close this window and open `[Target_Path]` in VS Code."

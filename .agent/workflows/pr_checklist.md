@@ -1,5 +1,5 @@
 ---
-description: [PR Checklist] Generates a PR description and validates readiness for review.
+description: Generates a PR description and validates readiness for review.
 ---
 
 # 📝 Workflow: PR Checklist

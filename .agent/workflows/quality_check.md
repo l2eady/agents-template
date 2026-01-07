@@ -57,4 +57,4 @@ description: Runs quality checks (Unit Tests & E2E) across the workspace.
     -   Verify `[Workspace_Root]/artifacts/logs/` exists and contains files prefixed with `[ID]`.
 2.  **Reporting**:
     -   **FAIL:** "QA Rejected. Found [Error/Warning]. See `[Workspace_Root]/artifacts/logs/[ID]_...`. Run `@[/debug]`."
-    -   **PASS:** "QA Approved. Logic verified against BDD. No warnings in logs. Ready for `@[/pr_checklist]`."
+    -   **PASS:** "QA Approved. Logic verified against BDD. No warnings in logs. Then **Generate File**: Save content to `[Workspace_Root]/docs/reports/qa_[ID].md`. Ready for `@[/pr_checklist]`."
