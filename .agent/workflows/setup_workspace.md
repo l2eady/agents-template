@@ -22,7 +22,7 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
 
 1.  **Scaffold Directories**:
     -   `mkdir -p [Target_Path]/.agent/workflows`
-    -   `mkdir -p [Target_Path]/.antigravity`
+    -   `mkdir -p [Target_Path]/.antigravity/styles`
     -   `mkdir -p [Target_Path]/.context/sessions`
     -   `mkdir -p [Target_Path]/artifacts/logs`
     -   `mkdir -p [Target_Path]/artifacts/plans`
@@ -63,13 +63,31 @@ description: Interactive wizard to setup a new Antigravity workspace from this t
         -   `pyproject.toml` / `requirements.txt` -> **Stack: Python**
         -   `Dockerfile` / `terraform` -> **Stack: Infra**
 
-2.  **Interactive Configuration (The Interview)**:
+2.  **Style Distillery**:
+    -   **Target**: `[Target_Path]/.antigravity/styles/main.md`
+    -   **Strategy A (Config detection)**:
+         - Check for `.editorconfig`, `.prettierrc`, `.eslintrc`, `tsconfig.json`, `golangci.yml`.
+         - If found, Create the generic style file and reference these configs.
+    -   **Strategy B (Inference)**:
+         - *If no config is found:*
+         - **Read**: Sample 3-5 source files (e.g., `main.go`, `App.tsx`).
+         - **Analyze**: Indentation, casing (camel vs snake), error handling patterns, structure.
+         - **Synthesize**: Write a succinct "Style Guide" into the target markdown file.
+         - **Format**:
+           ```markdown
+           # Style Guide: [Detected_Stack]
+           - Indent: [X] Spaces
+           - Casing: [Camel/Snake]
+           - Patterns: [Common patterns]
+           ```
+
+3.  **Interactive Configuration (The Interview)**:
     -   **Prompt User**: "I detected a **[Detected_Stack]** project. Please provide the following (or type 'skip'):"
         1.  "**JIRA Base URL** (e.g., `https://mycompany.atlassian.net`)"
         2.  "**GitHub/GitLab URL** (e.g., `https://github.com/myorg/myrepo`)"
         3.  "**Staging Base URL** (e.g., `https://api.staging.example.com`)"
 
-3.  **Generate `repo_map.json`**:
+4.  **Generate `repo_map.json`**:
     -   Construct the JSON with user inputs (or placeholders `TODO_CHANGE_ME` if skipped).
     -   **Write to**: `[Target_Path]/.context/repo_map.json`.
     ```json
